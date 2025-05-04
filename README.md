@@ -36,15 +36,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ## 🏗️ Project Architecture
 
-```mermaid
-graph TD
-    A[Dataset Preparation] --> B[Attribute Extraction (CNN)]
-    B --> C[Score Calculation (Warmth, Breathability, Occasion)]
-    C --> D[Clustering for Weather Suitability]
-    D --> E[Wardrobe Database Creation]
-    E --> F[Recommendation Engine]
-    F --> G[Web Application Deployment]
-```
+
 
 ---
 
