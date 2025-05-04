@@ -1,82 +1,123 @@
-# WearPerfect
+# WearPerfect: AI-Powered Weather-Based Outfit Recommendation System
 
-An AI-powered wardrobe management and outfit recommendation system that helps users organize their clothing and get personalized outfit suggestions based on weather conditions.
+## 🌟 Project Overview
 
-## Features
+WearPerfect is an AI-powered outfit recommendation system that assists users in selecting suitable clothing based on real-time weather and travel plans. The system enables users to upload images of their wardrobe, extract clothing attributes using CNN models, and receive context-aware outfit suggestions. It also includes a travel chatbot for optimized packing lists.
 
-- **Smart Wardrobe Management**
-  - Upload and categorize clothing items
-  - Automatic attribute detection for clothing items
-  - Organize items by type (top wear, bottom wear)
+---
 
-- **Intelligent Recommendations**
-  - Weather-based outfit suggestions
-  - Event-specific clothing recommendations
-  - Trip planning wardrobe assistance
+## 📋 Table of Contents
 
-- **User Authentication**
-  - Secure login system
-  - Personal wardrobe space
-  - Password reset functionality
+1. [Features](#features)
+2. [Project Architecture](#project-architecture)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Screenshots](#screenshots)
+6. [Deployment](#deployment)
+7. [Future Scope](#future-scope)
+8. [Contributors](#contributors)
+9. [License](#license)
 
-## Installation
+---
 
-1. Clone the repository:
-```sh
-git clone https://github.com/yourusername/WearPerfect.git
-cd WearPerfect
+## ✨ Features
+
+* Attribute extraction from user-uploaded clothing images.
+* Rule-based score calculation for warmth, breathability, and occasion.
+* Weather-based outfit recommendations using K-Prototypes clustering.
+* Travel chatbot for generating packing lists based on destination, duration, and activity.
+* Interactive web application with three modules:
+
+  * Virtual Wardrobe
+  * Instant Recommendations
+  * Travel Packing Assistant
+
+---
+
+## 🏗️ Project Architecture
+
+```mermaid
+graph TD
+    A[Dataset Preparation] --> B[Attribute Extraction (CNN)]
+    B --> C[Score Calculation (Warmth, Breathability, Occasion)]
+    C --> D[Clustering for Weather Suitability]
+    D --> E[Wardrobe Database Creation]
+    E --> F[Recommendation Engine]
+    F --> G[Web Application Deployment]
 ```
 
-2. Install dependencies:
-```sh
-pip install -r requirements.txt
+---
+
+## 🧰 Installation
+
+```bash
+# Clone the repo
+$ git clone https://github.com/RajaramAjay/WearPerfect.git
+$ cd WearPerfect
+
+# Create a virtual environment
+$ python -m venv venv
+$ source venv/bin/activate  # On Windows use: venv\Scripts\activate
+
+# Install required packages
+$ pip install -r requirements.txt
 ```
 
-3. Configure the application:
-   - Copy `config/config.toml.example` to `config/config.toml`
-   - Update the configuration with your settings
+---
 
-4. Run the application:
-```sh
-python app.py
-```
+## 🚀 Usage
 
-## Project Structure
+1. Upload top and bottom wear clothing images.
+2. System extracts attributes and calculates scores.
+3. Choose "Instant Recommendation" or use the "Travel Chatbot."
+4. Receive personalized outfit suggestions or travel packing list.
 
-```
-├── app.py                 # Main Flask application
-├── config/
-│   └── config.toml       # Configuration file
-├── data/                 # CSV data files
-├── Models/               # ML models
-├── src/                  # Source code
-├── static/              # Static assets
-├── templates/           # HTML templates
-└── uploads/            # User uploaded images
-```
+---
 
-## Technologies Used
+## 🖼️ Screenshots
 
-- Python 3.x
-- Flask
-- TensorFlow/Keras
-- OpenAI API
-- HTML/CSS/JavaScript
-- CSV for data storage
+* Virtual Wardrobe Interface
+* Real-time Recommendation Display
+* Travel Chatbot Interaction
 
-## Contributing
+(*Add your image files in `/assets/screenshots/` and embed them here*)
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+---
 
-## License
+## ☁️ Deployment
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+* GitHub Repository ✅
+* Local deployment through Flask/Gradio (optional)
+* Future scope: Hosting on Streamlit or Hugging Face Spaces
 
-## Acknowledgments
+---
 
-- Thanks to all contributors who participated in this project
-- Special thanks to UMBC for supporting this project
+## 🔮 Future Scope
+
+* Integrate virtual try-on using pretrained models like StableVITON.
+* Expand scoring to include color psychology for mood matching.
+* Use advanced weather APIs for longer forecasts.
+* Add user feedback loop to fine-tune outfit suggestions.
+
+---
+
+## 👥 Contributors
+
+* Ajay Rajaram
+* Sri Harsha Vardhan Madhiri
+* Ashok Sai
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📌 Acknowledgements
+
+* DeepFashion Dataset
+* ISO 11092 thermal resistance guidelines
+* Hugging Face, OpenWeatherMap APIs
+* StableVITON for virtual try-on (future integration)
