@@ -1,0 +1,303 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WearPerfect - Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6366f1, #f472b6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .auth-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #4f46e5;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #6366f1;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #4f46e5;
+    }
+    .switch-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+    .switch-link a {
+      color: #4f46e5;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container" id="login-section">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Username">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="loginUser()">Login</button>
+    <div class="switch-link">New user? <a onclick="showRegister()">Register here</a></div>
+  </div>
+
+  <div class="auth-container hidden" id="register-section">
+    <h2>Register</h2>
+    <input type="text" id="register-username" placeholder="Username">
+    <input type="password" id="register-password" placeholder="Password">
+    <button onclick="registerUser()">Register</button>
+    <div class="switch-link">Already have an account? <a onclick="showLogin()">Back to login</a></div>
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById('login-section').classList.add('hidden');
+      document.getElementById('register-section').classList.remove('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('register-section').classList.add('hidden');
+      document.getElementById('login-section').classList.remove('hidden');
+    }
+
+    async function registerUser() {
+      const username = document.getElementById('register-username').value;
+      const password = document.getElementById('register-password').value;
+
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Registration successful! Please log in.');
+        showLogin();
+      } else {
+        alert(`Registration failed: ${data.error}`);
+      }
+    }
+
+    async function loginUser() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Login successful! Redirecting...');
+        window.location.href = '/app';  // redirect to main app page
+      } else {
+        alert(`Login failed: ${data.error}`);
+      }
+    }
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WearPerfect - Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6366f1, #f472b6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .auth-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #4f46e5;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #6366f1;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #4f46e5;
+    }
+    .switch-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+    .switch-link a {
+      color: #4f46e5;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .hidden { display: none; }
+    .show-password {
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #4f46e5;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container" id="login-section">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Username">
+    <input type="password" id="login-password" placeholder="Password">
+    <div style="text-align: left;">
+      <input type="checkbox" id="login-show-password" onclick="togglePassword('login-password', 'login-show-password')"> Show Password
+    </div>
+    <button onclick="loginUser()">Login</button>
+    <div class="switch-link">New user? <a onclick="showRegister()">Register here</a></div>
+    <div class="switch-link">
+      Forgot your password? <a href="/reset_password_page">Reset here</a>
+    </div>
+  </div>
+  
+  
+
+  <div class="auth-container hidden" id="register-section">
+    <h2>Register</h2>
+    <input type="text" id="register-username" placeholder="Username">
+    <select id="register-gender" name="gender" required style="width: 105%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;">
+      <option value="" disabled selected>Select gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>  
+    <input type="password" id="register-password" placeholder="Password">
+    <input type="password" id="register-confirm-password" placeholder="Confirm Password">
+    <div style="text-align: left;">
+      <input type="checkbox" id="register-show-password" onclick="togglePassword('register-password', 'register-show-password'); togglePassword('register-confirm-password', 'register-show-password')"> Show Password
+    </div>
+    <button onclick="registerUser()">Register</button>
+    <div class="switch-link">Already have an account? <a onclick="showLogin()">Back to login</a></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      showLogin();  // Ensure only login shows on load
+    });
+
+    function showRegister() {
+      document.getElementById('login-section').classList.add('hidden');
+      document.getElementById('register-section').classList.remove('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('register-section').classList.add('hidden');
+      document.getElementById('login-section').classList.remove('hidden');
+    }
+
+    function togglePassword(fieldId, checkboxId) {
+      const field = document.getElementById(fieldId);
+      field.type = field.type === 'password' ? 'text' : 'password';
+    }
+
+    async function registerUser() {
+      const username = document.getElementById('register-username').value;
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const gender = document.getElementById('register-gender').value;
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, gender })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Registration successful! Please log in.');
+        showLogin();
+      } else {
+        alert(`Registration failed: ${data.error}`);
+      }
+    }
+
+    async function loginUser() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Login successful! Redirecting...');
+        window.location.href = '/app';
+      } else {
+        alert(`Login failed: ${data.error}`);
+      }
+    }
+  </script>
+</body>
+</html>
+

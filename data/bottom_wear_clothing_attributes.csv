@@ -1,0 +1,2 @@
+user_id,image_id,clothing_type,image_hash,timestamp,lower_clothing_length,primary_color_name,secondary_color_name,Fabric_Type,Pattern_Type,warmth_index,breathability_score,weather_tags
+55b5d5f3-91d4-4913-8da6-997b335ddbc7,619EgPxtaXL._AC_SX679_.jpg,bottom,ac63d79c97160ad8,2025-05-03 15:21:44,three-point,purplish grey,pinkish brown,Cotton,Pure Color,0.5,0.5,"snowy, rainy"

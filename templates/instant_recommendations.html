@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WearPerfect - Instant Recommendation</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f472b6;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        header p {
+            margin: 4px 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .user-block {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            text-align: right;
+        }
+        .user-block b {
+            font-weight: bold;
+        }
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        .tab-button:hover:not(.active) {
+            background-color: #f9fafb;
+            color: var(--primary-dark);
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .recommendation-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        .recommendation-btn:hover {
+            background-color: #059669;
+        }
+        .clothing-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .clothing-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 180px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            background: #fff;
+        }
+        .clothing-item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+        .clothing-details {
+            padding: 10px;
+        }
+        .clothing-details h4 {
+            margin: 0 0 5px;
+            font-size: 16px;
+            color: #333;
+        }
+        .clothing-details p {
+            margin: 3px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .llm-response {
+            background-color: #f8f9fa;
+            border-left: 3px solid #6366f1;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .llm-response ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        .llm-response li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .llm-response strong {
+            color: #4a5568;
+        }
+        .recommendation-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .recommendation-heading {
+            font-weight: bold;
+            margin: 15px 0 8px;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .recommendation-label {
+            font-weight: 500;
+            margin: 8px 0;
+            color: #4a5568;
+        }
+        .amazon-link {
+            display: inline-block;
+            color: #6366f1;
+            text-decoration: underline;
+            margin: 5px 0;
+            font-weight: 500;
+        }
+        a.amazon-link {
+            background-color: #f0f0ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        a.amazon-link:hover {
+            background-color: #e0e0ff;
+        }
+    </style>
+    <link rel="stylesheet" href="/static/css/shared-styles.css">
+</head>
+<body>
+<header>
+    <h1>WearPerfect</h1>
+    <p>Smart Fashion Recommendations Based on Weather</p>
+    <div class="user-block">
+        Hi, <b>{{ username.capitalize() }}</b><br>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </div>
+</header>
+
+<div class="tabs">
+    <button class="tab-button" onclick="window.location.href='/app'">👕 Online Wardrobe</button>
+    <button class="tab-button active" onclick="window.location.href='/recommendation'">🌤️ Instant Recommendation</button>
+    <button class="tab-button" onclick="window.location.href='/chatbot'">🧳 Tourist Chatbot</button>
+</div>
+
+<div class="container">
+    <h2>Today's Outfit Recommendation</h2>
+    <div>
+        📍 <span id="currentLocation">Detecting location...</span>
+    </div>
+    <div style="margin-top: 15px;">
+        <h3>Current Weather</h3>
+        <div id="weatherIcon" style="font-size: 2.5rem; margin: 15px 0;">⏳</div>
+        <div id="weatherDetails">
+            <span id="weatherTemp">--°C</span> |
+            <span id="weatherHumidity">--% RH</span> |
+            <span id="weatherPrediction">--</span>
+        </div>
+    </div>
+    <button id="getRecommendationBtn" class="recommendation-btn">Get Today's Outfit</button>
+    <div id="outfitDisplay" class="outfit-display" style="display: none;">
+        <div id="llmResponse" class="llm-response"></div>
+        <div class="recommendation-section">
+            <h3 class="recommendation-heading">Top Wear</h3>
+            <div id="topWearContainer" class="clothing-container"></div>
+        </div>
+        <div class="recommendation-section">
+            <h3 class="recommendation-heading">Bottom Wear</h3>
+            <div id="bottomWearContainer" class="clothing-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Popup Modal -->
+<div id="imageModal" class="image-modal">
+    <span class="close-btn" id="closeModal">×</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        getWeather();
+        document.getElementById('getRecommendationBtn').addEventListener('click', getClothingRecommendations);
+    });
+
+    const currentUser = "{{ username }}" || "default_user";
+    const currentUserId = "{{ user_id }}";
+    const gender = "{{ gender }}";
+
+    async function getWeather() {
+        try {
+            const response = await fetch('/api/weather');
+            const data = await response.json();
+            document.getElementById('currentLocation').textContent = data.location?.city || 'Unknown';
+            document.getElementById('weatherTemp').textContent = `${Math.round(data.weather_data.Temperature)}°C`;
+            document.getElementById('weatherHumidity').textContent = `${data.weather_data.Humidity}% RH`;
+            document.getElementById('weatherPrediction').textContent = data.prediction || 'N/A';
+            document.getElementById('weatherIcon').textContent = getWeatherEmoji(data.weather_data['Cloud Cover'] || '');
+        } catch {
+            document.getElementById('weatherDetails').textContent = 'Failed to load weather';
+        }
+    }
+
+    function getWeatherEmoji(desc) {
+        const d = desc.toLowerCase();
+        if (d.includes('sun') || d.includes('clear')) return '☀️';
+        if (d.includes('cloud')) return '☁️';
+        if (d.includes('rain')) return '🌧️';
+        if (d.includes('snow')) return '❄️';
+        return '🌡️';
+    }
+
+    async function getClothingRecommendations() {
+        const btn = document.getElementById('getRecommendationBtn');
+        btn.disabled = true;
+        btn.textContent = 'Loading...';
+        try {
+            const response = await fetch('/api/instant-clothing-recommendations');
+            const data = await response.json();
+
+            const llmResponse = await fetch('/api/instant-outfit-suggestion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    weather: data.weather,
+                    top_wear: data.top_wear,
+                    bottom_wear: data.bottom_wear,
+                    location: document.getElementById('currentLocation').textContent,
+                    gender: gender
+                })
+            });
+            const llmData = await llmResponse.json();
+
+            document.getElementById('topWearContainer').innerHTML = '';
+            document.getElementById('bottomWearContainer').innerHTML = '';
+            document.getElementById('llmResponse').innerHTML = llmData.suggestion || '<p>No outfit suggestion available.</p>';
+
+            if (data.top_wear.length > 0) {
+                data.top_wear.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'clothing-item';
+                    itemDiv.innerHTML = `
+                        <img src="/uploads/${currentUser}/${item.image_id}" class="recommendation-image" alt="${item.image_id}" onerror="this.src='/static/placeholder.png'">
+                        <div class="clothing-details">
+                            <h4>${item.primary_color_name} ${item.Fabric_Type}</h4>
+                            <p>${item.Pattern_Type}, ${item.sleeve_length}</p>
+                            <p>Warmth: ${item.warmth_index}, Breathability: ${item.breathability_score}</p>
+                        </div>
+                    `;
+                    document.getElementById('topWearContainer').appendChild(itemDiv);
+                });
+            } else {
+                document.getElementById('topWearContainer').innerHTML = `
+                    We are sorry, We couldn’t find suitable items in your wardrobe. Browse matching options on Amazon 👇<br>
+                    <a href="https://www.amazon.com/s?k=${encodeURIComponent(data.weather)}+top+wear+clothing+for+${gender}" target="_blank" class="amazon-link">
+                        Shop ${data.weather} clothing on Amazon
+                    </a>
+                `;
+            }
+
+            if (data.bottom_wear.length > 0) {
+                data.bottom_wear.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'clothing-item';
+                    itemDiv.innerHTML = `
+                        <img src="/uploads/${currentUser}/${item.image_id}" class="recommendation-image" alt="${item.image_id}" onerror="this.src='/static/placeholder.png'">
+                        <div class="clothing-details">
+                            <h4>${item.primary_color_name} ${item.Fabric_Type}</h4>
+                            <p>${item.Pattern_Type}, ${item.lower_clothing_length}</p>
+                            <p>Warmth: ${item.warmth_index}, Breathability: ${item.breathability_score}</p>
+                        </div>
+                    `;
+                    document.getElementById('bottomWearContainer').appendChild(itemDiv);
+                });
+            } else {
+                document.getElementById('bottomWearContainer').innerHTML = `
+                    We are sorry, We couldn’t find suitable items in your wardrobe. Browse matching options on Amazon 👇<br>
+                    <a href="https://www.amazon.com/s?k=${encodeURIComponent(data.weather)}+bottom+wear+clothing+for+${gender}" target="_blank" class="amazon-link">
+                        Shop ${data.weather} clothing on Amazon
+                    </a>
+                `;
+            }
+
+            document.getElementById('outfitDisplay').style.display = 'block';
+
+            document.querySelectorAll('.recommendation-image').forEach(img => {
+                img.addEventListener('click', () => {
+                    const modal = document.getElementById('imageModal');
+                    const modalImg = document.getElementById('modalImage');
+                    modal.style.display = 'block';
+                    modalImg.src = img.src;
+                });
+            });
+        } catch (err) {
+            alert('Failed to get recommendations.');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Get Today's Outfit";
+        }
+    }
+
+    async function logoutUser() {
+        const res = await fetch('/logout', { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) window.location.href = '/';
+        else alert(`Logout failed: ${data.error}`);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.getElementById('closeModal');
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    });
+</script>
+</body>
+</html>

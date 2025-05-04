@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WearPerfect - Tourist Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f472b6;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        header p {
+            margin: 4px 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .user-block {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            text-align: right;
+        }
+        .user-block b {
+            font-weight: bold;
+        }
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        .tab-button:hover:not(.active) {
+            background-color: #f9fafb;
+            color: var(--primary-dark);
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .chatbox {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .chatlog {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 70%;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        .message.bot {
+            background: #bfdbfe;
+            color: #1e3a8a;
+            align-self: flex-start;
+        }
+        .message.user {
+            background: #bbf7d0;
+            color: #065f46;
+            align-self: flex-end;
+        }
+        .chat-input {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            background: white;
+            padding: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .chat-input input:focus {
+            border-color: var(--primary);
+        }
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            margin-left: 10px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .chat-input button:hover {
+            background: var(--primary-dark);
+        }
+        .recommendation-image {
+            width: 80px;
+            height: 80px;
+            margin: 5px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .flatpickr-calendar {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .packing-list {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e0f2fe;
+            border-radius: 8px;
+        }
+        .packing-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .bot-message {
+            margin-bottom: 15px;
+        }
+        .trip-plan-header {
+            background-color: #f0f7ff;
+            border-left: 4px solid #3182ce;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+        .trip-plan-header h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            color: #2c5282;
+        }
+        .trip-plan-header p {
+            margin: 0;
+            color: #4a5568;
+        }
+        .day-header {
+            background-color: #2c5282;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 15px 0 10px 0;
+            font-size: 1.1rem;
+        }
+        .llm-response {
+            background-color: #f8f9fa;
+            border-left: 3px solid #6366f1;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+        .llm-response p {
+            margin: 8px 0;
+        }
+        .recommendation-heading {
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .recommendation-label {
+            font-weight: 500;
+            margin: 8px 0;
+            color: #4a5568;
+        }
+        .recommendation-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 8px 0 15px 0;
+        }
+        .recommendation-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        .day-separator {
+            border-top: 1px dashed #cbd5e0;
+            margin: 20px 0;
+        }
+        .amazon-link {
+            display: inline-block;
+            color: #6366f1;
+            text-decoration: underline;
+            margin: 5px 0 15px 0;
+            font-weight: 500;
+        }
+        .packing-list {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 10px 0;
+        }
+        .packing-list h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        .packing-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .packing-list li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .recommendation-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .recommendation-alert {
+            color: #7c3aed;
+            font-weight: 500;
+            margin: 10px 0 5px 0;
+            padding-left: 8px;
+            border-left: 3px solid #7c3aed;
+        }
+        .llm-response ul.llm-list {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        .llm-response ul.llm-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .llm-response strong {
+            color: #4a5568;
+        }
+        .user-message {
+            background-color: #ebf8ff;
+            border-radius: 18px 18px 0 18px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            align-self: flex-end;
+            max-width: 80%;
+            color: #2c5282;
+        }
+        .bot-message-container {
+            display: flex;
+            margin: 10px 0;
+        }
+        .bot-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #6366f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .bot-message {
+            background-color: #f3f4f6;
+            border-radius: 18px 18px 18px 0;
+            padding: 10px 15px;
+            max-width: 80%;
+            color: #4b5563;
+        }
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 15px;
+        }
+        a.amazon-link {
+            background-color: #f0f0ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        a.amazon-link:hover {
+            background-color: #e0e0ff;
+        }
+    </style>
+    <link rel="stylesheet" href="/static/css/shared-styles.css">
+</head>
+<body>
+<header>
+    <h1>WearPerfect</h1>
+    <p>Smart Fashion Recommendations Based on Weather</p>
+    <div class="user-block">
+        Hi, <b>{{ username.capitalize() }}</b><br>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </div>
+</header>
+
+<div class="tabs">
+    <button class="tab-button" onclick="window.location.href='/app'">👕 Online Wardrobe</button>
+    <button class="tab-button" onclick="window.location.href='/recommendation'">🌤️ Instant Recommendation</button>
+    <button class="tab-button active" onclick="window.location.href='/chatbot'">🧳 Tourist Chatbot</button>
+</div>
+
+<div id="chatbot" class="tab-content">
+    <h2>Tourist Travel Chatbot</h2>
+    <div class="chatbox">
+        <div class="chat-header">
+            <div class="chat-icon">🧳</div>
+            <div>Travel Assistant</div>
+        </div>
+        <div class="chatlog" id="chatlog"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+            <button onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Image Popup Modal -->
+<div id="imageModal" class="image-modal">
+    <span class="close-btn" id="closeModal">×</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    let chatbotState = { step: 0, location: '', dates: '', event: '' };
+    let storedRecommendations = [];
+
+    function addMessage(sender, text) {
+        const log = document.getElementById('chatlog');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.textContent = text;
+        log.appendChild(msgDiv);
+        log.scrollTop = log.scrollHeight;
+    }
+
+    function addHtmlMessage(sender, htmlContent) {
+        const log = document.getElementById('chatlog');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.innerHTML = htmlContent;
+        log.appendChild(msgDiv);
+        log.scrollTop = log.scrollHeight;
+
+        msgDiv.querySelectorAll('.recommendation-image').forEach(img => {
+            img.addEventListener('click', () => {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImage');
+                modal.style.display = 'block';
+                modalImg.src = img.src;
+            });
+        });
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        if (chatbotState.step === 0) {
+            chatbotState.location = message;
+            chatbotState.step = 1;
+            addMessage('user', message);
+            addMessage('bot', "Great! Please select your travel dates.");
+            showDatePicker();
+        } else if (chatbotState.step === 2) {
+            chatbotState.event = message;
+            chatbotState.step = 3;
+            addMessage('user', message);
+            fetchRecommendations();
+        } else {
+            addMessage('user', message);
+            sendUserQuestion(message);
+        }
+
+        input.value = '';
+    }
+
+    function showDatePicker() {
+        const log = document.getElementById('chatlog');
+        const dateWrapper = document.createElement('div');
+        dateWrapper.style.display = 'inline-block';
+        dateWrapper.style.background = '#f3f4f6';
+        dateWrapper.style.padding = '8px';
+        dateWrapper.style.borderRadius = '8px';
+        dateWrapper.style.margin = '5px';
+
+        const dateInput = document.createElement('input');
+        dateInput.type = 'text';
+        dateInput.id = 'datePicker';
+        dateInput.placeholder = 'Select date range';
+        dateInput.style.width = '200px';
+        dateWrapper.appendChild(dateInput);
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'message bot';
+        msgDiv.appendChild(dateWrapper);
+        log.appendChild(msgDiv);
+
+        flatpickr(dateInput, {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+            minDate: 'today',
+            maxDate: new Date().fp_incr(14),
+            onClose: function(selectedDates) {
+                if (selectedDates.length === 2) {
+                    chatbotState.dates = `${selectedDates[0].toISOString().split('T')[0]} to ${selectedDates[1].toISOString().split('T')[0]}`;
+                    chatbotState.step = 2;
+                    addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                } else if (selectedDates.length === 1) {
+                    chatbotState.dates = `${selectedDates[0].toISOString().split('T')[0]} to ${selectedDates[0].toISOString().split('T')[0]}`;
+                    chatbotState.step = 2;
+                    addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                }
+            }
+        });
+        log.scrollTop = log.scrollHeight;
+    }
+
+    async function fetchRecommendations() {
+        addMessage('bot', "Generating your travel plan...");
+        try {
+            const res = await fetch('/plan_trip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(chatbotState)
+            });
+            const data = await res.json();
+            const currentUser = "{{ username }}";
+            const gender = "{{ gender }}";
+
+            if (data.recommendations && data.recommendations.length > 0) {
+                storedRecommendations = data.recommendations;
+
+                addHtmlMessage('bot', '<div class="trip-plan-header"><h3>🌍 Your Personalized Trip Plan</h3><p>Here\'s what I recommend for each day of your journey:</p></div>');
+
+                data.recommendations.forEach((rec, index) => {
+                    const weatherType = rec.weather || 'clothing';
+                    
+                    addHtmlMessage('bot', `<div class="day-header">Day ${index + 1} (${rec.date}) - ${weatherType} weather</div>`);
+
+                    if (rec.llm_response) {
+                        let formattedResponse = rec.llm_response;
+                        formattedResponse = formattedResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        
+                        if (formattedResponse.includes('* ')) {
+                            const lines = formattedResponse.split('\n');
+                            let inList = false;
+                            let htmlResult = '';
+                            
+                            lines.forEach(line => {
+                                const trimmedLine = line.trim();
+                                if (trimmedLine.startsWith('* ')) {
+                                    if (!inList) {
+                                        htmlResult += '<ul class="llm-list">';
+                                        inList = true;
+                                    }
+                                    htmlResult += `<li>${trimmedLine.substring(2)}</li>`;
+                                } else {
+                                    if (inList) {
+                                        htmlResult += '</ul>';
+                                        inList = false;
+                                    }
+                                    if (trimmedLine) {
+                                        htmlResult += `<p>${trimmedLine}</p>`;
+                                    }
+                                }
+                            });
+                            
+                            if (inList) {
+                                htmlResult += '</ul>';
+                            }
+                            
+                            formattedResponse = htmlResult;
+                        } else {
+                            formattedResponse = formattedResponse
+                                .split('\n')
+                                .map(line => {
+                                    const trimmed = line.trim();
+                                    return trimmed ? `<p>${trimmed}</p>` : '';
+                                })
+                                .join('');
+                        }
+                        
+                        addHtmlMessage('bot', `<div class="llm-response">${formattedResponse}</div>`);
+                    }
+
+                    addHtmlMessage('bot', '<div class="recommendation-section"><div class="recommendation-heading">Recommended Outfits:</div>');
+
+                    if (rec.top_wear && rec.top_wear.length > 0) {
+                        addHtmlMessage('bot', '<div class="recommendation-label">Top Wear Options:</div>');
+                        let topHtml = '<div class="recommendation-images">';
+                        rec.top_wear.forEach(item => {
+                            topHtml += `<img src="/uploads/${currentUser}/${item.image_id}" class="recommendation-image" alt="${item.image_id}">`;
+                        });
+                        topHtml += '</div>';
+                        addHtmlMessage('bot', topHtml);
+                    } else {
+                        addHtmlMessage('bot', '<div class="recommendation-alert">No suitable top wear found in your wardrobe. Browse matching options on Amazon:</div>');
+                        addHtmlMessage('bot', `<a href="https://www.amazon.com/s?k=${encodeURIComponent(weatherType)}+top+wear+clothing+for+${gender}" target="_blank" class="amazon-link">Shop ${weatherType} top wear on Amazon</a>`);
+                    }
+
+                    if (rec.bottom_wear && rec.bottom_wear.length > 0) {
+                        addHtmlMessage('bot', '<div class="recommendation-label">Bottom Wear Options:</div>');
+                        let bottomHtml = '<div class="recommendation-images">';
+                        rec.bottom_wear.forEach(item => {
+                            bottomHtml += `<img src="/uploads/${currentUser}/${item.image_id}" class="recommendation-image" alt="${item.image_id}">`;
+                        });
+                        bottomHtml += '</div>';
+                        addHtmlMessage('bot', bottomHtml);
+                    } else {
+                        addHtmlMessage('bot', '<div class="recommendation-alert">No suitable bottom wear found in your wardrobe. Browse matching options on Amazon:</div>');
+                        addHtmlMessage('bot', `<a href="https://www.amazon.com/s?k=${encodeURIComponent(weatherType)}+bottom+wear+clothing+for+${gender}" target="_blank" class="amazon-link">Shop ${weatherType} bottom wear on Amazon</a>`);
+                    }
+                    
+                    addHtmlMessage('bot', '</div>');
+                    
+                    if (index < data.recommendations.length - 1) {
+                        addHtmlMessage('bot', '<div class="day-separator"></div>');
+                    }
+                });
+
+                addMessage('bot', "Got any questions about your trip outfits or packing? Just ask!");
+            } else {
+                addMessage('bot', "No recommendations found. Let's find some great clothing options for your trip:");
+                addHtmlMessage('bot', `<a href="https://www.amazon.com/s?k=clothing+for+${gender}" target="_blank" class="amazon-link">Browse clothing on Amazon</a>`);
+            }
+        } catch (err) {
+            console.error('Trip plan error:', err);
+            addMessage('bot', "Oops, something went wrong while generating your trip plan. Please try again!");
+        }
+    }
+
+    async function sendUserQuestion(question) {
+        if (!question.trim()) {
+            addMessage('bot', "Please enter a question!");
+            return;
+        }
+
+        if (question.toLowerCase().includes("packing list")) {
+            addMessage('bot', "Generating your packing list...");
+            try {
+                const dateMatch = question.match(/(\d{4}-\d{2}-\d{2})/) || [chatbotState.dates.split(" to ")[0]];
+                const targetDate = dateMatch[0];
+                const rec = storedRecommendations.find(r => r.date === targetDate) || storedRecommendations[0];
+
+                if (!rec) {
+                    addMessage('bot', "No recommendations available for that date. Please try another question or start a new trip plan!");
+                    return;
+                }
+
+                const packingList = [
+                    rec.top_wear && rec.top_wear.length > 0
+                        ? `Top Wear: ${rec.top_wear.map(item => `${item.image_id} (${item.clothing_type || 'Top'})`).join(", ")}`
+                        : "Top Wear: None in wardrobe, consider dark-colored long-sleeve shirts or sweaters (shop on Amazon).",
+                    "Bottom Wear: Dark wash jeans or chinos (shop on Amazon if not in wardrobe).",
+                    "Layering: Lightweight jacket or cardigan for cloudy weather.",
+                    "Shoes: Comfortable sneakers or loafers.",
+                    "Accessories: Baseball cap, simple watch, light scarf.",
+                    "Essentials: Foldable umbrella, small backpack, travel-sized toiletries.",
+                    "Packing Tips: Roll clothes to save space, use shoe bags to keep clothes clean."
+                ];
+
+                const packingHtml = `<div class="packing-list"><h3>📋 Your Packing List</h3><ul><li>${packingList.join("</li><li>")}</li></ul></div>`;
+                addHtmlMessage('bot', packingHtml);
+                addMessage('bot', "Anything else about your trip or packing?");
+            } catch (err) {
+                console.error('Packing list error:', err);
+                addMessage('bot', "Oops, something went wrong generating the packing list. Please try again!");
+            }
+            return;
+        }
+
+        addMessage('bot', "Let me check that for you...");
+
+        try {
+            const res = await fetch('/ask_question', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: question,
+                    recommendations: storedRecommendations,
+                    location: chatbotState.location || "Unknown",
+                    event: chatbotState.event || "Unknown"
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                let formattedAnswer = data.answer;
+                formattedAnswer = formattedAnswer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                formattedAnswer = formattedAnswer
+                    .split('\n')
+                    .map(line => {
+                        const trimmed = line.trim();
+                        return trimmed ? `<p>${trimmed}</p>` : '';
+                    })
+                    .join('');
+                addHtmlMessage('bot', `<div class="llm-response">${formattedAnswer}</div>`);
+            } else {
+                addMessage('bot', "Sorry, I couldn't process that. Please ask something related to your trip outfits or packing!");
+            }
+        } catch (err) {
+            console.error('Question error:', err);
+            addMessage('bot', "Oops, something went wrong. Please try asking again!");
+        }
+    }
+
+    async function logoutUser() {
+        try {
+            const res = await fetch('/logout', { method: 'POST' });
+            const data = await res.json();
+            if (res.ok) {
+                window.location.href = '/';
+            } else {
+                alert(`Logout failed: ${data.error}`);
+            }
+        } catch (err) {
+            console.error('Logout error:', err);
+            alert('Logout failed. Please try again.');
+        }
+    }
+
+    window.onload = function() {
+        setTimeout(() => addMessage('bot', "Hello! 👋, I'm your Travel Assistant, Where are you planning to travel?"), 500);
+        document.getElementById('userInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        const modal = document.getElementById('imageModal');
+        const closeBtn = document.getElementById('closeModal');
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        };
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    };
+</script>
+</body>
+</html>

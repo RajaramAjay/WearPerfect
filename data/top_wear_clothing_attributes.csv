@@ -1,0 +1,8 @@
+user_id,image_id,clothing_type,image_hash,timestamp,upper_clothing_covering_navel,neckline,outer_clothing_cardigan,primary_color_name,secondary_color_name,sleeve_length,Fabric_Type,Pattern_Type,warmth_index,breathability_score,weather_tags
+869b8329-b265-457f-989e-211e4f9c8058,IMG_7773.jpeg,top,b72f40a0278bbc5e,2025-05-03 15:02:34,yes,round,no cardigan,putty,warm grey,short-sleeve,Cotton,Pure Color,0.4,1.0,snowy
+55b5d5f3-91d4-4913-8da6-997b335ddbc7,DSC_3265.JPG,top,8d9fd22761837439,2025-05-03 15:37:14,yes,round,no cardigan,purplish brown,dark grey,long-sleeve,Cotton,Pure Color,0.6,0.8,rainy
+55b5d5f3-91d4-4913-8da6-997b335ddbc7,IMG_3987.jpeg,top,da95972cb4b1218f,2025-05-03 15:45:38,yes,round,no cardigan,purple brown,dull brown,short-sleeve,Cotton,Graphic,0.4,1.0,snowy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-1.jpeg,top,afd3b14a6e2d6094,2025-05-03 20:35:56,yes,lapel,yes cardigan,chocolate brown,very dark brown,long-sleeve,Furry,Pure Color,0.6,0.9,"cloudy, rainy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-2.jpeg,top,bfd3a48b2e8530c6,2025-05-03 20:40:06,yes,lapel,no cardigan,grey,slate grey,long-sleeve,Cotton,Pure Color,0.6,0.9,"cloudy, sunny"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-4.jpeg,top,bab1d1062e6de2c6,2025-05-04 11:23:20,yes,lapel,yes cardigan,almost black,dark grey,long-sleeve,Leather,Color-block,0.6,0.9,"cloudy, rainy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-6.jpeg,top,b9d3d22e2dc486c6,2025-05-04 11:39:12,yes,round,no cardigan,almost black,dirt,sleeveless,Cotton,Pure Color,0.3,1.1,sunny
