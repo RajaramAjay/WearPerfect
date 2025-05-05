@@ -1,4 +1,4 @@
-def generate_llm_context(location, date, weather, event, top_wear_items=None, bottom_wear_items=None):
+def generate_llm_context(location, date, weather, event=None, top_wear_items=None, bottom_wear_items=None):
     """
     Generates a structured context string for the LLM based on trip and wardrobe data.
     
