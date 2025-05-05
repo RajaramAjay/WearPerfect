@@ -489,11 +489,6 @@ def get_combined_wardrobe_items():
 
     return jsonify(top_items + bottom_items)
 
-
-# @app.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(UPLOAD_FOLDER, filename)
-
 @app.route('/uploads/<username>/<filename>')
 def uploaded_file(username, filename):
     return send_from_directory(os.path.join(UPLOAD_FOLDER, username), filename)

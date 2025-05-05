@@ -12,59 +12,93 @@
             --secondary: #f472b6;
             --success: #10b981;
             --danger: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-sm: 0 2px 5px rgba(0,0,0,0.1);
+            --radius: 8px;
+            --radius-sm: 6px;
+            --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f9fafb;
-            color: #1f2937;
         }
+        
+        body {
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 20px 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
             position: relative;
         }
+        
         header h1 {
             margin: 0;
             font-size: 2rem;
             font-weight: bold;
         }
+        
         header p {
             margin: 4px 0 0;
             font-size: 1rem;
             opacity: 0.9;
         }
+        
         .user-block {
             position: absolute;
             top: 20px;
             right: 30px;
             text-align: right;
         }
+        
         .user-block b {
             font-weight: bold;
         }
+        
         .logout-btn {
             background: var(--danger);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             padding: 6px 12px;
             cursor: pointer;
             font-size: 0.9rem;
             margin-top: 5px;
+            transition: all 0.3s ease;
         }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+        
         .tabs {
             display: flex;
-            background-color: white;
-            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             margin-top: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
+        
         .tab-button {
             flex: 1;
             padding: 15px;
@@ -73,108 +107,188 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--text-primary);
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
         }
+        
         .tab-button.active {
             color: var(--primary);
             border-bottom: 3px solid var(--primary);
             background-color: rgba(99, 102, 241, 0.05);
         }
+        
         .tab-button:hover:not(.active) {
-            background-color: #f9fafb;
+            background-color: var(--bg-primary);
             color: var(--primary-dark);
         }
+        
         .container {
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
-            background-color: white;
-            border-radius: 12px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
+        
+        .tab-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        
         .chatbox {
             display: flex;
             flex-direction: column;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            height: 550px;
+            border-radius: var(--radius);
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
         }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .chat-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
         .chatlog {
             flex: 1;
-            padding: 15px;
+            padding: 1.25rem;
             overflow-y: auto;
-            background: #f9fafb;
+            background: #f3f4f6;
             display: flex;
             flex-direction: column;
+            gap: 1rem;
+            scroll-behavior: smooth;
         }
-        .message {
-            max-width: 70%;
-            margin: 10px 0;
-            padding: 10px 15px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-        .message.bot {
-            background: #bfdbfe;
-            color: #1e3a8a;
-            align-self: flex-start;
-        }
-        .message.user {
-            background: #bbf7d0;
-            color: #065f46;
+        
+        .user-message {
             align-self: flex-end;
+            background-color: #e0f2fe;
+            border-radius: 1.25rem 1.25rem 0 1.25rem;
+            padding: 0.85rem 1.15rem;
+            max-width: 80%;
+            color: #075985;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.95rem;
         }
+        
+        .bot-message-container {
+            display: flex;
+            align-items: flex-start;
+            margin-right: 3rem;
+        }
+        
+        .bot-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.8rem;
+        }
+        
+        .bot-message {
+            background-color: white;
+            border-radius: 1.25rem 1.25rem 1.25rem 0;
+            padding: 0.85rem 1.15rem;
+            max-width: 80%;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+        }
+        
         .chat-input {
             display: flex;
             align-items: center;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--border-color);
             background: white;
-            padding: 10px;
+            padding: 1rem 1.25rem;
         }
+        
         .chat-input input {
             flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 1rem;
+            padding: 0.85rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            font-family: var(--font-sans);
         }
+        
         .chat-input input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
         }
+        
         .chat-input button {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 16px;
-            margin-left: 10px;
+            width: 45px;
+            height: 45px;
+            margin-left: 0.75rem;
             border-radius: 50%;
-            font-size: 1.2rem;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
         }
+        
         .chat-input button:hover {
             background: var(--primary-dark);
         }
+        
+        .chat-input button svg {
+            width: 20px;
+            height: 20px;
+        }
+        
         .recommendation-image {
-            width: 80px;
-            height: 80px;
-            margin: 5px;
-            border-radius: 8px;
+            width: 100px;
+            height: 100px;
+            margin: 0.25rem;
+            border-radius: var(--radius);
             object-fit: cover;
             cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
-        .flatpickr-calendar {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            border-radius: 12px;
+        
+        .recommendation-image:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
         }
+        
         .image-modal {
             display: none;
             position: fixed;
@@ -187,11 +301,13 @@
             align-items: center;
             z-index: 1000;
         }
+        
         .modal-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 8px;
+            border-radius: var(--radius);
         }
+        
         .close-btn {
             position: absolute;
             top: 20px;
@@ -199,183 +315,265 @@
             color: white;
             font-size: 2rem;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .packing-list {
-            margin: 10px 0;
-            padding: 10px;
-            background: #e0f2fe;
-            border-radius: 8px;
+        
+        .close-btn:hover {
+            opacity: 0.9;
         }
-        .packing-list ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-        .bot-message {
-            margin-bottom: 15px;
-        }
+        
         .trip-plan-header {
-            background-color: #f0f7ff;
-            border-left: 4px solid #3182ce;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border-radius: 6px;
+            background: #f8f9fa;
+            border-left: 3px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
         }
+        
         .trip-plan-header h3 {
-            margin-top: 0;
-            margin-bottom: 6px;
-            color: #2c5282;
+            margin: 0 0 0.35rem;
+            color: var(--primary-dark);
+            font-weight: 600;
         }
+        
         .trip-plan-header p {
             margin: 0;
-            color: #4a5568;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
+        
         .day-header {
-            background-color: #2c5282;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
             color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin: 15px 0 10px 0;
-            font-size: 1.1rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            margin: 1.25rem 0 1rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
         }
+        
         .llm-response {
             background-color: #f8f9fa;
-            border-left: 3px solid #6366f1;
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 4px;
-            line-height: 1.5;
+            border-left: 3px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            border-radius: var(--radius-sm);
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
+        
         .llm-response p {
-            margin: 8px 0;
+            margin: 0.5rem 0;
         }
+        
         .recommendation-heading {
-            font-weight: bold;
-            margin: 15px 0 8px 0;
-            color: #4a5568;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 5px;
+            font-weight: 600;
+            margin: 1rem 0 0.75rem 0;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            font-size: 1.05rem;
         }
+        
         .recommendation-label {
             font-weight: 500;
-            margin: 8px 0;
-            color: #4a5568;
+            margin: 0.75rem 0 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
+        
         .recommendation-images {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 8px 0 15px 0;
+            gap: 0.75rem;
+            margin: 0.75rem 0 1rem 0;
         }
-        .recommendation-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #e2e8f0;
-        }
+        
         .day-separator {
-            border-top: 1px dashed #cbd5e0;
-            margin: 20px 0;
+            border-top: 1px dashed var(--border-color);
+            margin: 1.5rem 0;
         }
+        
         .amazon-link {
             display: inline-block;
-            color: #6366f1;
-            text-decoration: underline;
-            margin: 5px 0 15px 0;
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0.5rem 0 1rem 0;
             font-weight: 500;
+            padding: 0.5rem 1rem;
+            background-color: rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
         }
+        
+        .amazon-link:hover {
+            background-color: rgba(99, 102, 241, 0.2);
+        }
+        
         .packing-list {
-            background-color: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 12px 15px;
-            margin: 10px 0;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow-sm);
         }
+        
         .packing-list h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #2d3748;
+            margin: 0 0 0.75rem;
+            color: #0369a1;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
+        
         .packing-list ul {
             margin: 0;
-            padding-left: 20px;
+            padding-left: 1.5rem;
         }
+        
         .packing-list li {
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 0.6rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
         }
+        
         .recommendation-section {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 15px;
-            margin: 15px 0;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+            box-shadow: var(--shadow-sm);
         }
+        
         .recommendation-alert {
-            color: #7c3aed;
+            color: var(--primary-dark);
             font-weight: 500;
-            margin: 10px 0 5px 0;
-            padding-left: 8px;
-            border-left: 3px solid #7c3aed;
+            margin: 0.75rem 0 0.5rem 0;
+            padding-left: 0.75rem;
+            border-left: 3px solid var(--primary);
+            font-size: 0.95rem;
         }
+        
         .llm-response ul.llm-list {
-            padding-left: 20px;
-            margin: 10px 0;
+            padding-left: 1.5rem;
+            margin: 0.75rem 0;
         }
+        
         .llm-response ul.llm-list li {
-            margin-bottom: 8px;
+            margin-bottom: 0.6rem;
             line-height: 1.5;
         }
+        
         .llm-response strong {
-            color: #4a5568;
+            color: var(--text-primary);
+            font-weight: 600;
         }
-        .user-message {
-            background-color: #ebf8ff;
-            border-radius: 18px 18px 0 18px;
-            padding: 10px 15px;
-            margin: 10px 0;
-            align-self: flex-end;
-            max-width: 80%;
-            color: #2c5282;
-        }
-        .bot-message-container {
-            display: flex;
-            margin: 10px 0;
-        }
-        .bot-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #6366f1;
+        
+        .bot-typing {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            margin-right: 10px;
-            flex-shrink: 0;
+            padding: 0.75rem 1rem;
+            background-color: white;
+            border-radius: 1.25rem 1.25rem 1.25rem 0;
+            width: fit-content;
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
         }
-        .bot-message {
-            background-color: #f3f4f6;
-            border-radius: 18px 18px 18px 0;
-            padding: 10px 15px;
-            max-width: 80%;
-            color: #4b5563;
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite;
+            opacity: 0.6;
         }
-        .message-container {
-            display: flex;
-            flex-direction: column;
-            padding: 10px 15px;
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
         }
-        a.amazon-link {
-            background-color: #f0f0ff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            transition: all 0.2s ease;
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
-        a.amazon-link:hover {
-            background-color: #e0e0ff;
+        
+        @keyframes typingAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .date-wrapper {
+            background: white;
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-sm);
+            margin: 0.5rem 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        
+        .date-wrapper input {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            width: 220px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .date-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        
+        .flatpickr-calendar {
+            font-family: var(--font-sans);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        
+        .flatpickr-day.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+                margin: 20px auto;
+            }
+            
+            .tab-button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            
+            .chatbox {
+                height: 70vh;
+            }
+            
+            .user-block {
+                position: static;
+                margin-top: 10px;
+                text-align: center;
+            }
+            
+            header {
+                padding: 15px 0;
+            }
         }
     </style>
     <link rel="stylesheet" href="/static/css/shared-styles.css">
@@ -396,22 +594,24 @@
     <button class="tab-button active" onclick="window.location.href='/chatbot'">🧳 Tourist Chatbot</button>
 </div>
 
-<div id="chatbot" class="tab-content">
-    <h2>Tourist Travel Chatbot</h2>
-    <div class="chatbox">
-        <div class="chat-header">
-            <div class="chat-icon">🧳</div>
-            <div>Travel Assistant</div>
-        </div>
-        <div class="chatlog" id="chatlog"></div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
-            <button onclick="sendMessage()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-            </button>
+<div class="container">
+    <div id="chatbot" class="tab-content">
+        <h2>Tourist Travel Chatbot</h2>
+        <div class="chatbox">
+            <div class="chat-header">
+                <div class="chat-icon">🧳</div>
+                <div>Travel Assistant</div>
+            </div>
+            <div class="chatlog" id="chatlog"></div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+                <button onclick="sendMessage()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -428,29 +628,102 @@
 
     function addMessage(sender, text) {
         const log = document.getElementById('chatlog');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${sender}`;
-        msgDiv.textContent = text;
-        log.appendChild(msgDiv);
+        
+        if (sender === 'user') {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'user-message';
+            msgDiv.textContent = text;
+            log.appendChild(msgDiv);
+        } else {
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'bot-message-container';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'bot-avatar';
+            avatarDiv.textContent = '🧳';
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'bot-message';
+            msgDiv.textContent = text;
+            
+            containerDiv.appendChild(avatarDiv);
+            containerDiv.appendChild(msgDiv);
+            
+            log.appendChild(containerDiv);
+        }
+        
         log.scrollTop = log.scrollHeight;
     }
 
     function addHtmlMessage(sender, htmlContent) {
         const log = document.getElementById('chatlog');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${sender}`;
-        msgDiv.innerHTML = htmlContent;
-        log.appendChild(msgDiv);
+        
+        if (sender === 'user') {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'user-message';
+            msgDiv.innerHTML = htmlContent;
+            log.appendChild(msgDiv);
+        } else {
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'bot-message-container';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'bot-avatar';
+            avatarDiv.textContent = '🧳';
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'bot-message';
+            msgDiv.innerHTML = htmlContent;
+            
+            containerDiv.appendChild(avatarDiv);
+            containerDiv.appendChild(msgDiv);
+            
+            log.appendChild(containerDiv);
+        }
+        
         log.scrollTop = log.scrollHeight;
 
-        msgDiv.querySelectorAll('.recommendation-image').forEach(img => {
+        log.querySelectorAll('.recommendation-image').forEach(img => {
             img.addEventListener('click', () => {
                 const modal = document.getElementById('imageModal');
                 const modalImg = document.getElementById('modalImage');
-                modal.style.display = 'block';
+                modal.style.display = 'flex';
                 modalImg.src = img.src;
             });
         });
+    }
+    
+    function showTypingIndicator() {
+        const log = document.getElementById('chatlog');
+        const containerDiv = document.createElement('div');
+        containerDiv.className = 'bot-message-container';
+        containerDiv.id = 'typing-indicator';
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'bot-avatar';
+        avatarDiv.textContent = '🧳';
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'bot-typing';
+        
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'typing-dot';
+            typingDiv.appendChild(dot);
+        }
+        
+        containerDiv.appendChild(avatarDiv);
+        containerDiv.appendChild(typingDiv);
+        
+        log.appendChild(containerDiv);
+        log.scrollTop = log.scrollHeight;
+    }
+    
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) {
+            indicator.remove();
+        }
     }
 
     function sendMessage() {
@@ -462,15 +735,22 @@
             chatbotState.location = message;
             chatbotState.step = 1;
             addMessage('user', message);
-            addMessage('bot', "Great! Please select your travel dates.");
-            showDatePicker();
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                addMessage('bot', "Great! Please select your travel dates.");
+                showDatePicker();
+            }, 800);
         } else if (chatbotState.step === 2) {
             chatbotState.event = message;
             chatbotState.step = 3;
             addMessage('user', message);
+            showTypingIndicator();
             fetchRecommendations();
         } else {
             addMessage('user', message);
+            showTypingIndicator();
             sendUserQuestion(message);
         }
 
@@ -479,24 +759,27 @@
 
     function showDatePicker() {
         const log = document.getElementById('chatlog');
+        const containerDiv = document.createElement('div');
+        containerDiv.className = 'bot-message-container';
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'bot-avatar';
+        avatarDiv.textContent = '🧳';
+        
         const dateWrapper = document.createElement('div');
-        dateWrapper.style.display = 'inline-block';
-        dateWrapper.style.background = '#f3f4f6';
-        dateWrapper.style.padding = '8px';
-        dateWrapper.style.borderRadius = '8px';
-        dateWrapper.style.margin = '5px';
-
+        dateWrapper.className = 'bot-message date-wrapper';
+        
         const dateInput = document.createElement('input');
         dateInput.type = 'text';
         dateInput.id = 'datePicker';
         dateInput.placeholder = 'Select date range';
-        dateInput.style.width = '200px';
+        
         dateWrapper.appendChild(dateInput);
-
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message bot';
-        msgDiv.appendChild(dateWrapper);
-        log.appendChild(msgDiv);
+        containerDiv.appendChild(avatarDiv);
+        containerDiv.appendChild(dateWrapper);
+        
+        log.appendChild(containerDiv);
+        log.scrollTop = log.scrollHeight;
 
         flatpickr(dateInput, {
             mode: 'range',
@@ -507,15 +790,24 @@
                 if (selectedDates.length === 2) {
                     chatbotState.dates = `${selectedDates[0].toISOString().split('T')[0]} to ${selectedDates[1].toISOString().split('T')[0]}`;
                     chatbotState.step = 2;
-                    addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                    showTypingIndicator();
+                    
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                    }, 800);
                 } else if (selectedDates.length === 1) {
                     chatbotState.dates = `${selectedDates[0].toISOString().split('T')[0]} to ${selectedDates[0].toISOString().split('T')[0]}`;
                     chatbotState.step = 2;
-                    addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                    showTypingIndicator();
+                    
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        addMessage('bot', "What type of activities are you planning? (e.g., casual, formal, party)");
+                    }, 800);
                 }
             }
         });
-        log.scrollTop = log.scrollHeight;
     }
 
     async function fetchRecommendations() {
