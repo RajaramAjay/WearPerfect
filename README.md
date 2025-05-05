@@ -8,7 +8,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ## 📋 Table of Contents
 
-1. [Features](#features)
+1. - [Features](#features)
 2. [Project Architecture](#project-architecture)
 3. [Installation](#installation)
 4. [Usage](#usage)
@@ -20,7 +20,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ---
 
-## ✨ Features
+## Features
 
 * Attribute extraction from user-uploaded clothing images.
 * Rule-based score calculation for warmth, breathability, and occasion.
