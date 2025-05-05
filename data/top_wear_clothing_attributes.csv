@@ -6,3 +6,14 @@ user_id,image_id,clothing_type,image_hash,timestamp,upper_clothing_covering_nave
 7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-2.jpeg,top,bfd3a48b2e8530c6,2025-05-03 20:40:06,yes,lapel,no cardigan,grey,slate grey,long-sleeve,Cotton,Pure Color,0.6,0.9,"cloudy, sunny"
 7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-4.jpeg,top,bab1d1062e6de2c6,2025-05-04 11:23:20,yes,lapel,yes cardigan,almost black,dark grey,long-sleeve,Leather,Color-block,0.6,0.9,"cloudy, rainy"
 7ac244c6-9e21-421c-870a-5b5db93c43c1,johnpic-6.jpeg,top,b9d3d22e2dc486c6,2025-05-04 11:39:12,yes,round,no cardigan,almost black,dirt,sleeveless,Cotton,Pure Color,0.3,1.1,sunny
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_1.jpeg,top,bfc2950b780dd896,2025-05-04 23:46:35,yes,round,yes cardigan,dark,almost black,long-sleeve,Leather,Pure Color,0.6,0.8,"cloudy, rainy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,Image_2.jpeg,top,bfc2b58b7c054496,2025-05-04 23:48:06,yes,round,no cardigan,gunmetal,charcoal grey,long-sleeve,Knitted,Color-block,0.6,0.8,cloudy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_3.jpeg,top,bfc2b58b7c0d4096,2025-05-04 23:49:18,yes,round,no cardigan,charcoal grey,purple brown,long-sleeve,Knitted,Striped,0.6,0.8,cloudy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_4.jpeg,top,bfc3b48b5c89e890,2025-05-04 23:50:21,yes,round,no cardigan,grey brown,charcoal grey,long-sleeve,Cotton,Striped,0.6,0.8,cloudy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_5.jpeg,top,b5c3a58b18ddea81,2025-05-04 23:51:08,yes,round,no cardigan,medium grey,almost black,long-sleeve,Cotton,Pure Color,0.6,0.8,cloudy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_6.jpeg,top,bfc2b40b7c05d293,2025-05-04 23:52:04,yes,lapel,yes cardigan,milk chocolate,dark,long-sleeve,Furry,Pure Color,0.6,0.9,"cloudy, rainy,snowy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_7.jpeg,top,b6c7a70904adab8b,2025-05-04 23:53:09,yes,round,no cardigan,Coral,brownish orange,short-sleeve,Cotton,Pure Color,0.4,1.0,sunny
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_9.png,top,b8c3b34bb54506b3,2025-05-05 00:15:22,yes,round,no cardigan,Coral,sand brown,short-sleeve,Cotton,Floral,0.4,1.0,snowy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,imagw_10.png,top,b7d325c22ccc33c6,2025-05-05 00:23:32,yes,round,no cardigan,light grey,very light brown,long-sleeve,Cotton,Floral,0.6,0.8,rainy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_11.png,top,bfd2b5025e2d6494,2025-05-05 00:25:12,yes,round,no cardigan,almost black,dark,long-sleeve,Cotton,Graphic,0.6,0.8,rainy
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_12.png,top,bfc3b5c24e2e6490,2025-05-05 00:26:13,yes,lapel,no cardigan,rusty red,dark,short-sleeve,Cotton,Graphic,0.4,1.1,"sunny, snowy"
