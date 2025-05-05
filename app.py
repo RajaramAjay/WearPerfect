@@ -574,7 +574,6 @@ def get_outfit_suggestion():
             location=location,
             date=datetime.now().strftime("%Y-%m-%d"),
             weather=weather,
-            event="casual",
             top_wear_items=top_wear,
             bottom_wear_items=bottom_wear
         )
@@ -587,7 +586,7 @@ def get_outfit_suggestion():
             "- Bottom wear (reference wardrobe item or suggest type). "
             "- Shoes and accessories. "
             "- One styling tip. "
-            "Focus on weather suitability and casual style. If no wardrobe items fit, suggest Amazon shopping with '[shop on Amazon]' placeholder. "
+            "Focus on weather suitability. If no wardrobe items fit, suggest Amazon shopping with '[shop on Amazon]' placeholder. "
             "Stay friendly and practical."
         )
 
@@ -611,39 +610,57 @@ def plan_trip():
 
     try:
         data = request.get_json(force=True)
+        # print(data)
         location = data.get("location")
         dates = data.get("dates")
-        event = data.get("event")
+        events = data.get("events")
 
-        if not location or not dates or not event:
-            return jsonify({"success": False, "error": "Missing location/dates/event"}), 400
+        # Validate input
+        if not location or not dates or not events:
+            return jsonify({"success": False, "error": "Missing location/dates/events"}), 400
+        if not isinstance(dates, list) or not all(isinstance(d, str) for d in dates):
+            return jsonify({"success": False, "error": "Dates must be a list of date strings (YYYY-MM-DD)"}), 400
+        if not isinstance(events, list) or not all(isinstance(e, dict) and "date" in e and "event" in e for e in events):
+            return jsonify({"success": False, "error": "Events must be a list of {date, event} objects"}), 400
 
-        # Parse dates
-        date_parts = dates.split(" to ")
-        start_date = datetime.strptime(date_parts[0], "%Y-%m-%d")
-        end_date = datetime.strptime(date_parts[1], "%Y-%m-%d")
+        # Validate date formats and ensure dates match events
+        parsed_dates = []
+        for date_str in dates:
+            try:
+                datetime.strptime(date_str, "%Y-%m-%d")
+                parsed_dates.append(date_str)
+            except ValueError:
+                return jsonify({"success": False, "error": f"Invalid date format: {date_str}. Use YYYY-MM-DD."}), 400
+
+        # Ensure each date has a corresponding event
+        event_dates = {e["date"] for e in events}
+        if set(dates) != event_dates:
+            return jsonify({"success": False, "error": "Each date must have a corresponding event and vice versa."}), 400
 
         # Initialize LLM
         llm = LLMInvoke()
 
         recommendations = []
-        curr = start_date
-        while curr <= end_date:
-            rec = get_datecity_forecast(location, curr.strftime("%Y-%m-%d"), event)
+        for date_str in parsed_dates:
+            # Find the event for this date
+            event_obj = next(e for e in events if e["date"] == date_str)
+            event = event_obj["event"]
+
+            # Get weather forecast and wardrobe items
+            rec = get_datecity_forecast(location, date_str, event)
             if isinstance(rec, str):
-                import json
                 rec = json.loads(rec)
 
-            # Generate LLM context using the plug-and-play function
+            # Generate LLM context
             context = generate_llm_context(
                 location=location,
-                date=curr.strftime("%Y-%m-%d"),
+                date=date_str,
                 weather=rec.get("prediction", "N/A"),
                 event=event,
                 top_wear_items=rec.get("top_wear_items", []),
                 bottom_wear_items=rec.get("bottom_wear_items", [])
             )
-            # print(context)
+
             # Define the LLM query
             query = (
                 "Based on the trip details and the user’s wardrobe items, "
@@ -657,16 +674,15 @@ def plan_trip():
             # Get LLM response
             llm_result = llm.llm_response(query, context)
             llm_response = llm_result.get("answer", "No additional tips available.")
-            print(llm_response)
+            # print(llm_response)
 
             recommendations.append({
-                "date": curr.strftime("%Y-%m-%d"),
+                "date": date_str,
                 "weather": rec.get("prediction", ""),
                 "top_wear": rec.get("top_wear_items", []),
                 "bottom_wear": rec.get("bottom_wear_items", []),
                 "llm_response": llm_response
             })
-            curr += timedelta(days=1)
 
         return jsonify({"success": True, "recommendations": recommendations})
 
@@ -682,6 +698,7 @@ def ask_question():
 
     try:
         data = request.get_json(force=True)
+        print("ask_question--------",data )
         question = data.get("question")
         recommendations = data.get("recommendations", [])
         location = data.get("location", "Unknown")
@@ -715,8 +732,21 @@ def ask_question():
         )
 
         # Append question-specific instructions
-        full_context += f"\n\nUser’s question: {question}\n\nAnswer the user’s question in a friendly, conversational tone, using the wardrobe and trip details above. Focus on trip-related fashion, outfit advice, and packing tips. If the question is unrelated, politely explain that you only assist with trip fashion and packing advice."
+        # full_context += f"\n\nUser’s question: {question}\n\nAnswer the user’s question in a friendly, conversational tone, using the wardrobe and trip details above. Focus on trip-related fashion, outfit advice, and packing tips. If the question is unrelated, politely explain that you only assist with trip fashion and packing advice."
+        # Append destination-specific context
+        destination_context = (
+            f"The user is traveling to {location}. Provide information about this destination if the question is related to attractions, activities, or general details about the location. "
+            "If specific details about the destination are unavailable, offer general advice about visiting the location, such as typical attractions (e.g., landmarks, museums, natural sites) or seasonal considerations."
+        )
 
+        # Append question-specific instructions
+        full_context += f"\n\n{destination_context}\n\nUser’s question: {question}\n\n" \
+                        "Answer the user’s question in a friendly, conversational tone. " \
+                        "If the question is about the destination (e.g., attractions, activities, or general information about the location), provide relevant information based on the destination context, focusing on popular attractions, activities, or seasonal tips. " \
+                        "If the question is about trip fashion, outfits, or packing, use the wardrobe and trip details to suggest specific outfits (referencing item attributes like color, fabric, warmth index) and packing tips tailored to the trip. " \
+                        "For fashion questions, suggest complete outfits, including layering and accessories, and explain why they suit the weather and event. " \
+                        "If no wardrobe items are suitable, recommend clothing types and suggest shopping on Amazon. " \
+                        "If the question is unrelated to the destination or trip fashion/packing, politely explain that you only assist with destination information, trip fashion, and packing advice, and encourage a relevant question."
         # Query the LLM
         llm_result = llm.llm_response(question, full_context)
         answer = llm_result.get("answer", "Sorry, I couldn’t generate a response. Please try again!")

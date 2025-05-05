@@ -6,8 +6,11 @@ clustering_weather_data_topwear="data/clustering_weather_data_topwear.csv"
 users_csv = "data/users.csv"
 weather_suitability_model = "Models/weather_classification/weather_classifier_model.pkl"
 
+
+#api_key="AIzaSyA18ja6FDxSA6g9-XVuxszsb5wR7eNOx2Q"
+
 [geminiai]
-api_key="AIzaSyCQ_sq7fwW-gjFLsZ9vbhYagMLqQtR_LGs"
+api_key="AIzaSyCslb1IFhdn11AoFlFLtHIkDzARRBV0Jqs"
 model="gemini-1.5-pro-latest"
 
 [attribute_models]
