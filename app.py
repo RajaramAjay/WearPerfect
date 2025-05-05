@@ -322,7 +322,7 @@ def save_attributes():
     # Prepare row for CSV
     row = {
         'user_id': current_user_id,
-        'image_id': image_id,
+        'image_id': secure_filename(image_id),
         'clothing_type': clothing_type,
         'image_hash': image_hash,
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
