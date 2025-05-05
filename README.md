@@ -20,7 +20,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ---
 
-## ✨ Features
+## Features
 
 * Attribute extraction from user-uploaded clothing images.
 * Rule-based score calculation for warmth, breathability, and occasion.
@@ -34,7 +34,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ---
 
-## 🏗️ Project Architecture
+## Project Architecture
 <p align="center">
   <img src="assets/Journey%20-%20visual%20selection.png" width="700"/>
 </p>
@@ -42,7 +42,7 @@ WearPerfect is an AI-powered outfit recommendation system that assists users in 
 
 ---
 
-## 🧰 Installation
+## Installation
 
 ```bash
 # Clone the repo
@@ -59,7 +59,7 @@ $ pip install -r requirements.txt
 
 ---
 
-## 🚀 Usage
+## Usage
 
 1. Upload top and bottom wear clothing images.
 2. System extracts attributes and calculates scores.
@@ -68,17 +68,17 @@ $ pip install -r requirements.txt
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
 * Virtual Wardrobe Interface
 * Real-time Recommendation Display
 * Travel Chatbot Interaction
 
-(*Add your image files in `/assets/screenshots/` and embed them here*)
+
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
 * GitHub Repository ✅
 * Local deployment through Flask/Gradio (optional)
@@ -86,7 +86,7 @@ $ pip install -r requirements.txt
 
 ---
 
-## 🔮 Future Scope
+## Future Scope
 
 * Integrate virtual try-on using pretrained models like StableVITON.
 * Expand scoring to include color psychology for mood matching.
@@ -95,7 +95,7 @@ $ pip install -r requirements.txt
 
 ---
 
-## 👥 Contributors
+## Contributors
 
 * Ajay Rajaram
 * Sri Harsha Vardhan Madhiri
@@ -103,7 +103,7 @@ $ pip install -r requirements.txt
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
