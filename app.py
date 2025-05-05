@@ -769,6 +769,11 @@ from src.llm_context_generator import (
 
 @app.route("/plan_trip", methods=["POST"])
 def plan_trip():
+    if "user_id" not in session:
+        return jsonify({"error": "Unauthorized: Please log in"}), 401
+
+    current_user_id = session["user_id"]
+
     if not request.is_json:
         return jsonify({"success": False, "error": "Invalid input, expecting JSON."}), 400
 
@@ -811,7 +816,7 @@ def plan_trip():
             event = event_obj["event"]
 
             # Get weather forecast and wardrobe items
-            rec = get_datecity_forecast(location, date_str, event)
+            rec = get_datecity_forecast(location, date_str, current_user_id, event)
             if isinstance(rec, str):
                 rec = json.loads(rec)
 
