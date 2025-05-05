@@ -252,7 +252,7 @@ def analyze_clothing():
                     existing_hash = row.get('image_hash')
                     if existing_hash:
                         # Compare using Hamming distance
-                        if imagehash.hex_to_hash(existing_hash) - imagehash.hex_to_hash(new_hash) <= 5:
+                        if imagehash.hex_to_hash(existing_hash) - imagehash.hex_to_hash(new_hash) <= 1:
                             os.remove(filepath)  # clean up temp file
                             return jsonify({'error': 'A visually similar image already exists in the system'}), 400
 
@@ -284,6 +284,7 @@ def save_attributes():
     current_user_id = session['user_id']
 
     data = request.json
+    del data['attributes']['']
     image_id = data.get('image_id', '')
     clothing_type = data.get('clothing_type', '')
     attributes = data.get('attributes', {})
