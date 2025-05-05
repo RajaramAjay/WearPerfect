@@ -4,12 +4,12 @@ from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 import os
 
-def top_wear_save_attributes(current_user_id, data, config):          
+def top_wear_save_attributes(current_user_id, data):          
     image_id = data.get("image_id", "")
     attributes = data.get("attributes", {})
     image_hash = data.get("image_hash", "")
     # Calculate warmth and breathability
-    warmth, breathability = calculate_scores(attributes, "clothing_type")
+    warmth, breathability = calculate_scores(attributes, "top")
     print(f"Warmth: {warmth}, Breathability: {breathability}")
 
     # Make a copy for weather clustering

@@ -14,7 +14,7 @@ config = toml.load(config_path)
 user_batch_state = {}
 
 
-def get_next_wardrobe_batch(user_id, weather, clothing_type, max_items=2):
+def get_next_wardrobe_batch(user_id, weather, clothing_type, max_items=5):
     """
     Returns the next batch of clothing items for the given user, weather, and clothing type.
     If no session exists, it initializes and shuffles the list.

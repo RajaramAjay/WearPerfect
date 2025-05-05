@@ -1,9 +1,9 @@
-user_id,image_id,clothing_type,image_hash,timestamp,lower_clothing_length,primary_color_name,secondary_color_name,Fabric_Type,Pattern_Type,warmth_index,breathability_score,weather_tags
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottomwear-1.jpeg,bottom,bd26c2cc9479871b,2025-05-04 19:00:39,long,milk chocolate,dirt brown,Cotton,Pure Color,0.5,0.5,"cloudy, rainy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_1.png,bottom,bc69cb1ec92e602e,2025-05-04 23:55:52,long,Teal,dark,Denim,Pure Color,0.5,0.5,"snowy, rainy,cloudy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_2.png,bottom,b0695b10cc73cdbc,2025-05-05 00:00:02,long,dark brown,almost black,Denim,Pure Color,0.5,0.5,"snowy, rainy,sunny,cloudy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_3.png,bottom,b0694d11cd33c7bc,2025-05-05 00:05:55,long,dark,chocolate,Denim,Pure Color,0.5,0.5,"snowy, rainy,sunny,cloudy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,image_4.png,bottom,b069cb11cd33a7b4,2025-05-05 00:07:06,long,almost black,dark,Denim,Pure Color,0.5,0.5,"snowy, rainy,sunny,cloudy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_5.png,bottom,b4693121c793cf3c,2025-05-05 00:08:09,medium short,White,White,Denim,Pure Color,0.5,0.5,"sunny"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_6.png,bottom,b0696921c5b3cfb4,2025-05-05 00:11:55,long,Light Gray,medium grey,Cotton,Pure Color,0.5,0.5,"snowy, rainy"
-7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_8.png,bottom,ad135dd783b82266,2025-05-05 11:20:09,medium short,Coral,toupe,Cotton,Pure Color,0.5,0.5,"snowy, rainy"
+user_id,image_id,clothing_type,image_hash,timestamp,lower_clothing_length,primary_color_name,secondary_color_name,Fabric_Type,Pattern_Type,weather_tags
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottomwear-1.jpeg,bottom,bd26c2cc9479871b,2025-05-04 19:00:39,long,milk chocolate,dirt brown,Cotton,Pure Color,"cloudy, rainy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_1.png,bottom,bc69cb1ec92e602e,2025-05-04 23:55:52,long,Teal,dark,Denim,Pure Color,"snowy, rainy,cloudy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_2.png,bottom,b0695b10cc73cdbc,2025-05-05 00:00:02,long,dark brown,almost black,Denim,Pure Color,"snowy, rainy,sunny,cloudy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_3.png,bottom,b0694d11cd33c7bc,2025-05-05 00:05:55,long,dark,chocolate,Denim,Pure Color,"snowy, rainy,sunny,cloudy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,image_4.png,bottom,b069cb11cd33a7b4,2025-05-05 00:07:06,long,almost black,dark,Denim,Pure Color,"snowy, rainy,sunny,cloudy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_5.png,bottom,b4693121c793cf3c,2025-05-05 00:08:09,medium short,White,White,Denim,Pure Color,sunny
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_6.png,bottom,b0696921c5b3cfb4,2025-05-05 00:11:55,long,Light Gray,medium grey,Cotton,Pure Color,"snowy, rainy"
+7ac244c6-9e21-421c-870a-5b5db93c43c1,bottom_8.png,bottom,ad135dd783b82266,2025-05-05 11:20:09,medium short,Coral,toupe,Cotton,Pure Color,"snowy, rainy"

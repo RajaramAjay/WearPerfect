@@ -1,4 +1,5 @@
 # app.py - Flask backend
+import random
 import uuid
 from flask import (
     Flask,
@@ -820,14 +821,18 @@ def plan_trip():
             if isinstance(rec, str):
                 rec = json.loads(rec)
 
+            top_wear_items = rec.get("top_wear_items", [])
+            bottom_wear_items = rec.get("bottom_wear_items", [])
+            top_wear_random_sample = random.sample(top_wear_items, min(2, len(top_wear_items)))
+            bottom_wear_random_sample = random.sample(bottom_wear_items, min(2, len(bottom_wear_items)))
             # Generate LLM context
             context = generate_llm_context(
                 location=location,
                 date=date_str,
                 weather=rec.get("prediction", "N/A"),
                 event=event,
-                top_wear_items=rec.get("top_wear_items", []),
-                bottom_wear_items=rec.get("bottom_wear_items", [])
+                top_wear_items=top_wear_random_sample,
+                bottom_wear_items=bottom_wear_random_sample
             )
 
             # Define the LLM query
@@ -848,8 +853,8 @@ def plan_trip():
             recommendations.append({
                 "date": date_str,
                 "weather": rec.get("prediction", ""),
-                "top_wear": rec.get("top_wear_items", []),
-                "bottom_wear": rec.get("bottom_wear_items", []),
+                "top_wear": top_wear_random_sample,
+                "bottom_wear": bottom_wear_random_sample,
                 "llm_response": llm_response
             })
 
