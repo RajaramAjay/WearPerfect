@@ -55,6 +55,9 @@ $ source venv/bin/activate  # On Windows use: venv\Scripts\activate
 
 # Install required packages
 $ pip install -r requirements.txt
+
+# Run the Application
+$ python app.py
 ```
 
 ---
@@ -70,10 +73,18 @@ $ pip install -r requirements.txt
 
 ## Screenshots
 
-* Virtual Wardrobe Interface
-* Real-time Recommendation Display
-* Travel Chatbot Interaction
-
+<h3>Virtual Wardrobe Interface</h3>
+<p align="center">
+  <img src="assets/Tab-1.png" width="700"/>
+</p>
+<h3>Real-time Recommendation Display</h3>
+<p align="center">
+  <img src="assets/Tab-2.png" width="700"/>
+</p>
+<h3>Travel Chatbot Interaction</h3>
+<p align="center">
+  <img src="assets/Tab-3.png" width="700"/>
+</p>
 
 
 ---
@@ -81,7 +92,6 @@ $ pip install -r requirements.txt
 ## Deployment
 
 * GitHub Repository ✅
-* Local deployment through Flask/Gradio (optional)
 * Future scope: Hosting on Streamlit or Hugging Face Spaces
 
 ---
