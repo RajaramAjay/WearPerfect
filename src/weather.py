@@ -176,6 +176,7 @@ def get_datecity_forecast(city, date, event=None):
     try:
         response = requests.get(url)
         data = response.json()
+        # print("data--------------",data)
 
         if 'error' in data:
             return {"error": data['error']['message']}
@@ -236,11 +237,11 @@ def get_datecity_forecast(city, date, event=None):
 
 
 
-if __name__ == "__main__":
-    city ='Baltimore'
-    date='2025-05-02'
-    final_result=get_datecity_forecast(city,date)
-    print(final_result)
+# if __name__ == "__main__":
+#     city ='City of Niagara Falls, New York, United States of America'
+#     date='2025-05-07'
+#     final_result=get_datecity_forecast(city,date)
+#     print(final_result)
 
 
 
