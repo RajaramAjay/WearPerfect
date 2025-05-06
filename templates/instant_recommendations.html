@@ -18,24 +18,7 @@
             background-color: #f9fafb;
             color: #1f2937;
         }
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        header p {
-            margin: 4px 0 0;
-            font-size: 1rem;
-            opacity: 0.9;
-        }
+        
         .user-block {
             position: absolute;
             top: 20px;
@@ -83,7 +66,7 @@
             background-color: #f9fafb;
             color: var(--primary-dark);
         }
-        .container {
+        .container-outfit {
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
@@ -220,24 +203,16 @@
         }
     </style>
     <link rel="stylesheet" href="/static/css/shared-styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"><!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
 </head>
 <body>
-<header>
-    <h1>WearPerfect</h1>
-    <p>Smart Fashion Recommendations Based on Weather</p>
-    <div class="user-block">
-        Hi, <b>{{ username.capitalize() }}</b><br>
-        <button class="logout-btn" onclick="logoutUser()">Logout</button>
-    </div>
-</header>
+    {% include 'navbar.html' %}
 
-<div class="tabs">
-    <button class="tab-button" onclick="window.location.href='/app'">👕 Online Wardrobe</button>
-    <button class="tab-button active" onclick="window.location.href='/recommendation'">🌤️ Instant Recommendation</button>
-    <button class="tab-button" onclick="window.location.href='/chatbot'">🧳 Tourist Chatbot</button>
-</div>
 
-<div class="container">
+
+<div class="container-outfit">
     <h2>Today's Outfit Recommendation</h2>
     <div>
         📍 <span id="currentLocation">Detecting location...</span>
@@ -416,5 +391,8 @@
         };
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    
 </body>
 </html>

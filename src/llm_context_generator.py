@@ -1,7 +1,9 @@
-def generate_llm_context(location, date, weather, event=None, top_wear_items=None, bottom_wear_items=None):
+def generate_llm_context(
+    location, date, weather, event = None, top_wear_items=None, bottom_wear_items=None
+):
     """
     Generates a structured context string for the LLM based on trip and wardrobe data.
-    
+
     Args:
         location (str): The trip destination (e.g., "Baltimore").
         date (str): The date of the trip day (e.g., "2025-05-03").
@@ -9,7 +11,7 @@ def generate_llm_context(location, date, weather, event=None, top_wear_items=Non
         event (str): The planned event(s) (e.g., "casual outing").
         top_wear_items (list): List of top wear items from wardrobe (default: None).
         bottom_wear_items (list): List of bottom wear items from wardrobe (default: None).
-    
+
     Returns:
         str: A formatted context string for the LLM.
     """
