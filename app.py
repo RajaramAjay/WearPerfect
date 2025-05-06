@@ -658,7 +658,7 @@ def clothing_recommendations():
         # Get next wardrobe batches
         top_wear_items = get_next_wardrobe_batch(user_id, weather_prediction, "top")
         bottom_wear_items = get_next_wardrobe_batch(user_id, weather_prediction, "bottom")
-
+        # import pdb; pdb.set_trace()
         return jsonify(
             {
                 "top_wear": top_wear_items,
@@ -714,6 +714,16 @@ def clothing_recommendations():
 #         print("Error generating outfit suggestion:", e)
 #         return jsonify({"success": False, "error": str(e)}), 500
 
+def clean_html_response(text):
+    # Remove leading/trailing code block markers if present
+    text = text.strip()
+    if text.startswith("```html"):
+        text = text[len("```html"):].strip()
+    if text.startswith("```"):
+        text = text[len("```"):].strip()
+    if text.endswith("```"):
+        text = text[:-3].strip()
+    return text
 
 @app.route("/api/instant-outfit-suggestion", methods=["POST"])
 def get_outfit_suggestion():
@@ -739,23 +749,38 @@ def get_outfit_suggestion():
             bottom_wear_items=bottom_wear,
         )
 
+        # query = (
+        #     "Based on the weather and user’s wardrobe, provide a concise outfit recommendation for today. Check all the combinations in top wear and bottom wear and provide multiple suggestions for the outfits"
+        #     "Use short sentences and give recommendations in points wise manner and bold the headings"
+        #     "Include: "
+        #     "- Top wear (reference wardrobe item or suggest type). "
+        #     "- Bottom wear (reference wardrobe item or suggest type). "
+        #     "- Shoes and accessories. "
+        #     "- One styling tip. "
+        #     "Focus on weather suitability. "
+        #     "Stay friendly and practical."
+        # )
         query = (
-            "Based on the weather and user’s wardrobe, provide a concise outfit recommendation for today. "
-            "Use short sentences. Format as an HTML unordered list (<ul><li>...</li></ul>). "
-            "Include: "
-            "- Top wear (reference wardrobe item or suggest type). "
-            "- Bottom wear (reference wardrobe item or suggest type). "
-            "- Shoes and accessories. "
-            "- One styling tip. "
-            "Focus on weather suitability. If no wardrobe items fit, suggest Amazon shopping with '[shop on Amazon]' placeholder. "
-            "Stay friendly and practical."
-        )
+                "Based on the current weather and the user's wardrobe, provide multiple complete outfit suggestions for today. "
+                "Check all possible combinations of top wear and bottom wear to generate several varied outfit options. "
+                "For each outfit, present the recommendation as a numbered list (1., 2., 3., etc.) with **bold headings** for clarity. "
+                "For each outfit, include: "
+                "- Top wear (reference a specific wardrobe item or suggest a type if none available). "
+                "- Bottom wear (reference a specific wardrobe item or suggest a type if none available). "
+                "- Suggested shoes and accessories that match the weather and outfit. "
+                "- One practical styling tip to elevate the look. "
+                "Ensure recommendations are weather-appropriate, friendly, and practical. "
+                "Keep sentences short and easy to follow. "
+                "If no wardrobe items are available for any category, suggest a type along with a placeholder '[shop on Amazon]'. "
+                "Format the full output in clear HTML with an unordered list (<ul>) and each outfit inside a list item (<li>)."
+            )
 
         llm_result = llm.llm_response(query, context)
         suggestion = llm_result.get(
             "answer", "<ul><li>No outfit suggestion available.</li></ul>"
         )
 
+        # suggestion = clean_html_response(suggestion)
         return jsonify({"success": True, "suggestion": suggestion})
 
     except Exception as e:

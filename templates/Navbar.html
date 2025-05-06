@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#" id="logoutButton"><i class="bi bi-box-arrow-right me-2" onclick="logout()"></i>Logout</a></li>
+                            <li><a class="dropdown-item" href="/" id="logoutButton" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2" ></i>Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -160,13 +160,16 @@
             
             // Logout functionality
             
-                 async function logoutUser() {
-                    const res = await fetch('/logout', { method: 'POST' });
-                    const data = await res.json();
-                    if (res.ok) window.location.href = '/';
-                    else alert(`Logout failed: ${data.error}`);
-                
+         async function logoutUser() {
+            const res = await fetch("/", { method: "POST" });
+            const data = await res.json();
+            if (res.ok) {
+            alert("Logged out successfully.");
+            window.location.href = "/";
+            } else {
+            alert(`Logout failed: ${data.error}`);
             }
+        }
             
             document.getElementById('logoutButton').addEventListener('click', handleLogout);
             document.getElementById('mobileLogoutButton').addEventListener('click', handleLogout);

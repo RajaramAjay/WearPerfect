@@ -30,7 +30,7 @@ def get_next_wardrobe_batch(user_id, weather, clothing_type, max_items=5):
 
     # Initialize if first time or no state
     if key not in user_batch_state:
-        eligible_items = load_and_filter_clothing(csv_file, weather)
+        eligible_items = load_and_filter_clothing(csv_file, weather, user_id)
         random.shuffle(eligible_items)
         user_batch_state[key] = {"items": eligible_items, "index": 0}
 
@@ -56,7 +56,7 @@ def get_next_wardrobe_batch(user_id, weather, clothing_type, max_items=5):
     return batch
 
 
-def load_and_filter_clothing(csv_file, weather_prediction):
+def load_and_filter_clothing(csv_file, weather_prediction, user_id):
     """
     Loads and filters clothing items from CSV by weather suitability.
     """
@@ -67,10 +67,15 @@ def load_and_filter_clothing(csv_file, weather_prediction):
         with open(csv_file, mode="r", encoding="utf-8") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                if is_suitable_for_weather(
-                    row.get("weather_tags", ""), weather_prediction
-                ):
+                # Check if row belongs to this user
+                row_user_id = row.get("user_id", "").strip()
+                if str(row_user_id) != str(user_id):
+                    continue  # skip other users' items
+
+                # Check if weather matches
+                if is_suitable_for_weather(row.get("weather_tags", ""), weather_prediction):
                     matching_items.append(row)
+                
     except Exception as e:
         print(f"Error loading {csv_file}: {e}")
 
