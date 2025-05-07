@@ -4,7 +4,7 @@
 
 WearPerfect is an AI-powered intelligent outfit recommendation system designed to enhance everyday clothing decisions through personalization and contextual awareness. The platform helps users select the most suitable outfits from their own wardrobe by taking into account real-time weather conditions, planned travel details, and social context (such as formal, casual, or party settings).
 
-Users begin by uploading images of their clothing items, which the system processes using advanced Convolutional Neural Networks (CNNs) to extract visual features like sleeve length, fabric type, neckline, and more. These extracted features are then fed into a rule-based scoring mechanism that evaluates each item’s warmth, breathability, and occasion appropriateness using scientifically grounded metrics.
+Users begin by uploading images of their clothing items, which the system processes using advanced Convolutional Neural Networks (CNNs) to extract visual features like sleeve length, lower clothing length, neckline, and more. These extracted features are then fed into a rule-based scoring mechanism that evaluates each item’s warmth, breathability, and occasion appropriateness using scientifically grounded metrics.
 
 The combination of personal wardrobe data, weather intelligence, and context-aware scoring enables the system to deliver practical, tailored recommendations. Whether it's deciding what to wear today or packing smartly for an upcoming trip, WearPerfect acts as a virtual stylist, ensuring that users are both comfortable and stylish in any situation.
 
@@ -49,7 +49,7 @@ The combination of personal wardrobe data, weather intelligence, and context-awa
   - ☀️ Sunny  
   - 🌧️ Rainy  
   - ❄️ Snowy  
-  - 🌬️ Windy  
+  - ☁️ Cloudy  
 
 ### 🤖 AI-Powered Travel Packing Chatbot
 - Helps plan smart packing lists for trips  
@@ -71,9 +71,9 @@ The combination of personal wardrobe data, weather intelligence, and context-awa
 ---
 ## Dataset and Assumptions
 
-We used the **DeepFashion-MultiModal Dataset**, containing 12,000+ full-body clothing images. After preprocessing:
+We used the [**DeepFashion-MultiModal Dataset**](https://github.com/yumingj/DeepFashion-MultiModal), containing full-body clothing images. After preprocessing:
 
-- Cropped into top wear and bottom wear.
+- Cropped into top wear and bottom wear separately.
 - Removed irrelevant items (e.g., accessories, socks).
 
 **Assumptions:**
