@@ -14,15 +14,16 @@ The combination of personal wardrobe data, weather intelligence, and context-awa
 
 1. [Features](#features)
 2. [Dataset and Assumptions](#dataset-and-assumptions)
-3. [Comparison with Existing Systems](#comparison-with-existing-systems)
-4. [Project Architecture](#project-architecture)
-5. [Installation](#installation)
-6. [Usage](#usage)
-7. [Screenshots](#screenshots)
-8. [Deployment](#deployment)
-9. [Future Scope](#future-scope)
-10. [Contributors](#contributors)
-11. [License](#license)
+3. [Demo Video](#demo)
+4. [Comparison with Existing Systems](#comparison-with-existing-systems)
+5. [Project Architecture](#project-architecture)
+6. [Installation](#installation)
+7. [Usage](#usage)
+8. [Screenshots](#screenshots)
+9. [Deployment](#deployment)
+10. [Future Scope](#future-scope)
+11. [Contributors](#contributors)
+12. [License](#license)
 
 ---
 ## Features
@@ -83,7 +84,7 @@ We used the **DeepFashion-MultiModal Dataset**, containing 12,000+ full-body clo
 
 ---
 ## Demo 
-🎥 [Watch the WearPerfect Demo on YouTube] : [Click Me](https://youtu.be/r6sn89rztT8?feature=shared)
+🎥 [Watch the WearPerfect Demo on YouTube] : [Click Me](https://youtu.be/aux3F83rcfg)
 
 ---
 
