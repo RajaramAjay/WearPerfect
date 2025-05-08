@@ -166,16 +166,24 @@ $ python app.py
 
 ## Future Scope
 
-* Add virtual try-on using StableVITON or similar pretrained models.
-* Expand scoring with color psychology and trend detection.
-* Support multi-language and voice input features.
-* Introduce feedback-based personalization.
-* Extend forecast API beyond 14 days for improved travel planning.
+* Integrate Virtual Try-On (e.g., StableVITON):
+Allow users to visualize how recommended outfits would look on a dummy avatar or user model using pre-trained virtual try-on models like StableVITON. This will enhance user engagement and decision-making by offering a visual preview of outfit combinations.
+
+* Advanced Scoring with Color Psychology & Trend Detection:
+Incorporate color theory to suggest outfits that match the user’s mood or event tone (e.g., calming tones for interviews, vibrant for parties). Integrate trend analysis based on current fashion data to keep suggestions modern and seasonally relevant.
+
+* Multi-language and Voice Interface Support:
+Expand accessibility by adding support for multiple languages and voice commands — allowing users from various regions and age groups to interact with the system naturally.
+
+* User Feedback Loop for Personalization:
+Introduce a system where users can rate or like outfit suggestions. Over time, the system will adapt and personalize future recommendations based on user preferences, creating a more intuitive and user-centered experience.
+
+* Extended Forecasting for Travel Planning:
+Leverage long-range or premium weather APIs to support travel planning beyond the current 14-day limit. This enables the chatbot to give more reliable packing suggestions for longer or more complex trips.
 
 ---
 
 ## Limitations
-## 🚧 Limitations
 
 While **WearPerfect** demonstrates the potential of AI-assisted wardrobe planning, the current version has several limitations:
 
@@ -223,9 +231,16 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📌 Acknowledgements
 
 * DeepFashion Dataset
-* ISO 11092 thermal resistance guidelines
-* Hugging Face, OpenWeatherMap APIs
-* StableVITON for virtual try-on (future integration)
+Provided a rich, annotated dataset of clothing images which served as the foundation for training attribute extraction models and building the virtual wardrobe.
+
+* ISO 11092 Thermal Resistance Guidelines
+Informed the rule-based scoring system for warmth and breathability by offering standardized methods for assessing fabric comfort levels.
+
+* Hugging Face & OpenWeatherMap APIs
+Hugging Face resources enabled model experimentation, while OpenWeatherMap was used to retrieve accurate, real-time weather data for generating context-aware outfit recommendations.
+
+* StableVITON (Future Integration)
+A cutting-edge virtual try-on model considered for enhancing user experience by visually simulating recommended outfits on dummy avatars.
 
 ## 💡 Bonus Tip
 
