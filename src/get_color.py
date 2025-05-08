@@ -60,24 +60,12 @@ def get_image_colors(image_path):
         name2 = closest_xkcd_color_name(rgb2)
 
         return {
-            # "primary_color_rgb": str(rgb1),
-            # "primary_color_hex": hex1,
             "primary_color_name": name1,
-            # "secondary_color_rgb": str(rgb2),
-            # "secondary_color_hex": hex2,
             "secondary_color_name": name2,
         }
     except Exception as e:
         return {
-            # "primary_color_rgb": "error",
-            # "primary_color_hex": "#808080",
             "primary_color_name": f"Error: {e}",
-            # "secondary_color_rgb": "",
-            # "secondary_color_hex": "",
             "secondary_color_name": "",
         }
 
-
-# Sample usage after receiving image from API upload
-# result = get_image_colors(r"C:\Users\arajaram\OneDrive - Maryland Department of Transportation(MDOT)\Desktop\Capstone project\chatbot for Project\test_images\taras-chernus-iIjResyhhW0-unsplash.jpg")
-# print(result)

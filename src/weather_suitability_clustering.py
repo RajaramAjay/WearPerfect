@@ -15,7 +15,6 @@ config = toml.load(CONFIG_PATH)
 clustering_weather_data_topwear = config["paths"]["clustering_weather_data_topwear"]
 
 
-# -----------------------------------
 def preprocess_topwear_data(
     df,
     new_record_dict,
@@ -31,12 +30,6 @@ def preprocess_topwear_data(
         "Pattern_Type",
     ]
     numerical_cols = ["warmth_score", "breathability_score"]
-
-    #   if normalize_scores:
-    #       df["warmth_score"] = df["warmth_score"] * 10
-    #       df["breathability_score"] = df["breathability_score"] * 10
-
-    #   df.drop(['hard_cluster', 'weather_suitability'], axis=1, inplace=True)
     new_record_df = pd.DataFrame([new_record_dict])
     # Append new record to original dataframe for clustering
     df = pd.concat([df, new_record_df], ignore_index=True)  # Combine dataframes
@@ -50,9 +43,7 @@ def preprocess_topwear_data(
     return df, X_np, cat_cols, categorical_cols, numerical_cols
 
 
-# -------------------------------------------
 # Function to fit K-Prototypes Clustering
-# -------------------------------------------
 def fit_kprototypes(X_np, cat_cols, n_clusters=4, random_state=42):
     kproto = KPrototypes(
         n_clusters=n_clusters, init="Cao", verbose=1, random_state=random_state
@@ -62,9 +53,7 @@ def fit_kprototypes(X_np, cat_cols, n_clusters=4, random_state=42):
     return kproto, clusters, centroids
 
 
-# --------------------------------------------
 # Function to compute soft (fuzzy) labels
-# --------------------------------------------
 def compute_soft_labels(X_np, centroids, categorical_cols):
     soft_labels = []
     for row in X_np:
@@ -84,9 +73,7 @@ def compute_soft_labels(X_np, centroids, categorical_cols):
     return np.array(soft_labels)
 
 
-# ----------------------------------------------
 # Function to map clusters to weather tags
-# ----------------------------------------------
 def assign_weather_labels(soft_scores, threshold=0.25):
     cluster_to_weather = {0: "sunny", 1: "cloudy", 2: "snowy", 3: "rainy"}
     multi_labels = []
@@ -95,10 +82,7 @@ def assign_weather_labels(soft_scores, threshold=0.25):
         multi_labels.append(tags if tags else ["sunny"])
     return multi_labels
 
-
-# --------------------------------------------------
 # Master function to run the entire clustering flow
-# --------------------------------------------------
 def run_topwear_clustering(new_record_dict):
     df = pd.read_csv(clustering_weather_data_topwear)
     # Preprocessing
@@ -117,7 +101,6 @@ def run_topwear_clustering(new_record_dict):
     df["weather_suitability"] = assign_weather_labels(soft_scores)
     new_record_weather_suitability = df.iloc[-1]["weather_suitability"]
     # df = df.iloc[:-1]
-
     return new_record_weather_suitability
 
 
@@ -149,21 +132,8 @@ def get_weathercluster_list(record):
         "warmth_score": record["attributes"].get("warmth_score"),
         "breathability_score": record["attributes"].get("breathability_score"),
     }
-
-    #   print(new_record)
     new_record_weather_suitability = run_topwear_clustering(new_record)
     return new_record_weather_suitability
-
-
-# record = {'image_id': 'WhatsApp_Image_2025-04-14_at_2.50.47_PM.jpeg', 'clothing_type': 'top', 'attributes': {'neckline': 'lapel', 'primary_color_name': 'gunmetal', 'secondary_color_name': 'brownish grey', 'sleeve_length': 'long-sleeve', 'Fabric_Type': 'Cotton', 'Pattern_Type': 'Pure Color', 'warmth_score': 0.6, 'breathability_score': 0.9, 'outer_clothing_cardigan': 'no cardigan', 'upper_clothing_covering_navel': 'yes'}}
-# new_record_weather_suitability = get_weathercluster_list(record)
-# print(new_record_weather_suitability)
-
-# import pandas as pd
-
-# # Load your CSV file
-# input_csv = 'final_top_wear_with_color (1).csv'
-# df = pd.read_csv(input_csv)
 
 def determine_bottom_wear_weather_suitability(row):
     fabric = str(row['attributes'].get('Fabric_Type', '')).strip().lower()
@@ -215,16 +185,4 @@ def determine_bottom_wear_weather_suitability(row):
         print(f"Row ID {row.get('image_id', 'N/A')}: ", '; '.join(unknown_flags))
 
     return ', '.join(suitability)
-    # return pd.Series({
-    #     'weather_suitability': ', '.join(sorted(suitability)),
-    #     'season_count': season_count
-    # })
-
-# # Apply the function and expand results
-# df[['weather_suitability', 'season_count']] = df.apply(determine_weather_suitability, axis=1)
-
-# # Save the updated CSV
-# output_csv = 'final_lower_wear_with_weather_suitability.csv'
-# df.to_csv(output_csv, index=False)
-
-# print(f"✅ Weather suitability and season count columns added and saved to {output_csv}")
+    

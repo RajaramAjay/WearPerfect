@@ -167,17 +167,3 @@ def get_all_attribute_predictions(image_path, clothing_type):
 
     return result
 
-
-# # Function to process multiple images
-# def get_multiple_attribute_predictions(image_paths):
-#     results = []
-#     for path in image_paths:
-#         result = get_all_attribute_predictions(path)
-#         results.append(result)
-#     return results
-
-# # Example usage for a single image
-# test_image = r"C:\Users\arajaram\OneDrive - Maryland Department of Transportation(MDOT)\Desktop\Capstone project\chatbot for Project\images\podmatch-xcQWU0Eff-U-unsplash.jpg"
-# result = get_all_attribute_predictions(test_image)
-# print("Single image prediction:")
-# print(result)

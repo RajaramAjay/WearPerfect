@@ -87,30 +87,12 @@ def calculate_top_wear_breathability_score(row):
 
     return breathability_score
 
-
-def calculate_bottom_wear_warmth_score(row):
-    return int(5)
-
-
-def calculate_bottom_wear_breathability_score(row):
-    return int(5)
-
-
 def calculate_scores(clothing_item, clothing_type):
-    # Assuming clothing_item is a dictionary with the necessary keys
     if clothing_type.lower() == "top":
-        # Assuming clothing_item is a dictionary with the necessary keys
         warmth = calculate_top_wear_warmth_score(clothing_item)
         breathability = calculate_top_wear_breathability_score(clothing_item)
-    # else:
-    #     warmth = calculate_bottom_wear_warmth_score(clothing_item)
-    #     breathability = calculate_bottom_wear_breathability_score(clothing_item)
+
     warmth = warmth / 10
     breathability = breathability / 10
     return warmth, breathability
 
-
-# example_clothing={'image_id': 'WhatsApp_Image_2025-04-14_at_2.47.18_PM.jpeg', 'clothing_type': 'top', 'attributes': {'navel_covering': 'yes', 'neckline': 'lapel', 'outer_cardigan': 'yes cardigan', 'primary_color_name': 'dark', 'secondary_color_name': 'almost black', 'sleeve_length': 'long-sleeve', 'Fabric_Type': 'Cotton', 'Pattern_Type': 'Pure Color'}}
-# warmth, breathability = calculate_scores(example_clothing["attributes"])
-# print(f"Warmth Score: {warmth/10}")
-# print(f"Breathability Score: {breathability/10}")
