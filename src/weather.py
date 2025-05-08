@@ -33,16 +33,6 @@ def get_location():
     except (requests.RequestException, ValueError, KeyError):
         return None
 
-
-# def get_weather(latitude, longitude):
-#     """Fetch current weather data for given latitude and longitude using WeatherAPI."""
-#     if not latitude or not longitude:
-#         return None
-
-#     API_KEY = "bbc7498d36c847dfaf532930252402"
-#     url = f"http://api.weatherapi.com/v1/current.json?key={API_KEY}&q={latitude},{longitude}&aqi=no"
-
-
 def get_weather(city):
     """Fetch current weather data for a given city using WeatherAPI."""
     if not city:
@@ -251,14 +241,6 @@ def get_datecity_forecast(city, date, user_id, event=None):
         return {"error": str(e)}
 
 
-
-
-
-# if __name__ == "__main__":
-#     city ='City of Niagara Falls, New York, United States of America'
-#     date='2025-05-07'
-#     final_result=get_datecity_forecast(city,date)
-#     print(final_result)
 
 
 

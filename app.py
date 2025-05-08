@@ -12,15 +12,13 @@ from flask import (
     Response,
 )
 import os
+from src.helper_function import clean_html_response
 from src.save_attributes import bottom_wear_save_attributes, top_wear_save_attributes
 from src.clothing_shortlist import get_next_wardrobe_batch
 from src.llm_response import LLMInvoke
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
-
-# Import your prediction function
 from src.AttributePred import get_all_attribute_predictions
-import sys
 import csv
 import json
 from datetime import datetime, timedelta
@@ -31,11 +29,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 import toml
 from src.weather import get_datecity_forecast, get_weather_json
-from src.calculate_scores import calculate_scores
 from src.get_color import get_image_colors
-# from src.clothing_shortlist import read_clothing_csv
-from src.predict_cluster import predict_weather_cluster
-from src.weather_suitability_clustering import get_weathercluster_list
 
 config_path = os.path.join("config", "config.toml")
 config = toml.load(config_path)
@@ -45,7 +39,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-app.secret_key = "0236182485f3cc06f485de4d5156a91c0aa15222c8530ff3d11096681344c4de"  # Required for session management
+app.secret_key = config["session_management_key"]["secret_key"]  # Required for session management
 
 UPLOAD_FOLDER = config["paths"]["UPLOAD_FOLDER"]
 top_csv = config["paths"]["top_wear_csv"]
@@ -76,7 +70,7 @@ def main_app():
         "online_wardrobe.html",
         username=session["username"],
         user_gender=session["user_id"],
-    )  # your separate main app file
+    )  
 
 
 @app.route("/reset_password_page")
@@ -270,15 +264,12 @@ def analyze_clothing():
     filename = secure_filename(file.filename)
     user_upload_folder = os.path.join(UPLOAD_FOLDER, current_user)
     os.makedirs(user_upload_folder, exist_ok=True)
-    # filepath = os.path.join(UPLOAD_FOLDER, filenam
     filepath = os.path.join(user_upload_folder, filename)
 
     # Save temporarily to compute hash
     file.save(filepath)
     new_hash = get_image_hash(filepath)
 
-    # Check against existing hashes in CSV
-    # csv_files = ['clothing_attributes.csv', 'bottom_wear_clothing_attributes.csv']
     csv_files = [config["paths"]["top_wear_csv"], config["paths"]["bottom_wear_csv"]]
 
     for csv_file in csv_files:
@@ -340,89 +331,6 @@ def save_attributes():
     else:
         row, desired_order = bottom_wear_save_attributes(current_user_id, data)
 
-    # # Calculate warmth and breathability
-    # warmth, breathability = calculate_scores(attributes, "clothing_type")
-    # print(f"Warmth: {warmth}, Breathability: {breathability}")
-
-    # # Make a copy for weather clustering
-    # new_data_row = data.copy()
-    # new_data_row["attributes"]["warmth_score"] = warmth
-    # new_data_row["attributes"]["breathability_score"] = breathability
-
-    # # Rename keys for weather clustering model if needed
-    # attribute_map = {
-    #     "outer_cardigan": "outer_clothing_cardigan",
-    #     "navel_covering": "upper_clothing_covering_navel",
-    # }
-    # for old_key, new_key in attribute_map.items():
-    #     if old_key in new_data_row["attributes"]:
-    #         new_data_row["attributes"][new_key] = new_data_row["attributes"].pop(
-    #             old_key
-    #         )
-
-    # # Get weather tags
-    # try:
-    #     weather_tags = get_weathercluster_list(new_data_row)
-    # except Exception as e:
-    #     print(f"Warning: Failed to generate weather tags - {e}")
-    #     weather_tags = []
-    # # Select CSV file
-    # csv_file = (
-    #     config["paths"]["top_wear_csv"]
-    #     if clothing_type.lower() == "top"
-    #     else config["paths"]["bottom_wear_csv"]
-    # )
-    # file_exists = os.path.isfile(csv_file)
-
-    # # Prepare row for CSV
-    # row = {
-    #     "user_id": current_user_id,
-    #     "image_id": secure_filename(image_id),
-    #     "clothing_type": clothing_type,
-    #     "image_hash": image_hash,
-    #     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    #     # 'warmth_index': warmth,
-    #     "breathability_score": breathability,
-    #     "weather_tags": ", ".join(weather_tags),
-    # }
-
-    # # Add all attributes
-    # for key, value in attributes.items():
-    #     row[key] = value
-
-    # row["warmth_index"] = row["warmth_score"]
-    # del row["warmth_score"]
-    # # Build field order
-    # base_fields = ["user_id", "image_id", "clothing_type", "image_hash", "timestamp"]
-    # weather_fields = ["warmth_index", "breathability_score", "weather_tags"]
-
-    # if clothing_type == "top":
-    #     desired_order = (
-    #         base_fields
-    #         + [
-    #             "upper_clothing_covering_navel",
-    #             "neckline",
-    #             "outer_clothing_cardigan",
-    #             "primary_color_name",
-    #             "secondary_color_name",
-    #             "sleeve_length",
-    #             "Fabric_Type",
-    #             "Pattern_Type",
-    #         ]
-    #         + weather_fields
-    #     )
-    # else:
-    #     desired_order = (
-    #         base_fields
-    #         + [
-    #             "lower_clothing_length",
-    #             "primary_color_name",
-    #             "secondary_color_name",
-    #             "Fabric_Type",
-    #             "Pattern_Type",
-    #         ]
-    #         + weather_fields
-    #     )
      # Select CSV file
     csv_file = (
     config["paths"]["top_wear_csv"]
@@ -473,9 +381,7 @@ def generate_item_name(attributes):
 
     name_parts = []
 
-    # -----------------
     # Bottom wear logic
-    # -----------------
     if length:
         if length in ["three-point", "three-quarter", "short"]:
             name_parts.append("Sporty")
@@ -492,9 +398,7 @@ def generate_item_name(attributes):
     if pattern and pattern not in ["na", "other"]:
         name_parts.append(pattern.capitalize())
 
-    # ----------------
     # Top wear logic
-    # ----------------
     adjective_map = {
         "sleeveless": "Breezy",
         "short-sleeve": "Casual",
@@ -566,13 +470,9 @@ def get_combined_wardrobe_items():
     current_user_id = session["user_id"]
     current_user = session["username"]
 
-    # top_csv = 'clothing_attributes.csv'
-    # bottom_csv = 'bottom_wear_clothing_attributes.csv'
     top_csv = config["paths"]["top_wear_csv"]
     bottom_csv = config["paths"]["bottom_wear_csv"]
 
-    # top_items = load_wardrobe_items_from_csv(top_csv)
-    # bottom_items = load_wardrobe_items_from_csv(bottom_csv)
 
     top_items = load_wardrobe_items_from_csv(top_csv, current_user_id, current_user)
     bottom_items = load_wardrobe_items_from_csv(
@@ -594,8 +494,6 @@ def delete_item(image_id):
 
     current_user = session["username"]
 
-    # top_csv = 'clothing_attributes.csv'
-    # bottom_csv = 'bottom_wear_clothing_attributes.csv'
     top_csv = config["paths"]["top_wear_csv"]
     bottom_csv = config["paths"]["bottom_wear_csv"]
 
@@ -603,7 +501,6 @@ def delete_item(image_id):
         user_upload_folder = os.path.join(UPLOAD_FOLDER, current_user)
         image_path = os.path.join(user_upload_folder, image_id)
 
-        # image_path = os.path.join(UPLOAD_FOLDER, image_id)
         if os.path.exists(image_path):
             os.remove(image_path)
 
@@ -649,8 +546,6 @@ def clothing_recommendations():
 
     current_user_id = session["user_id"]
     try:
-        # import pdb; pdb.set_trace()
-        # from src.weather import get_weather_json
         weather_data = json.loads(get_weather_json())
         weather_prediction = weather_data.get("prediction", "").lower()
         user_id = current_user_id
@@ -658,7 +553,6 @@ def clothing_recommendations():
         # Get next wardrobe batches
         top_wear_items = get_next_wardrobe_batch(user_id, weather_prediction, "top")
         bottom_wear_items = get_next_wardrobe_batch(user_id, weather_prediction, "bottom")
-        # import pdb; pdb.set_trace()
         return jsonify(
             {
                 "top_wear": top_wear_items,
@@ -668,62 +562,6 @@ def clothing_recommendations():
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-# @app.route("/api/instant-outfit-suggestion", methods=["POST"])
-# def get_outfit_suggestion():
-#     if not request.is_json:
-#         return jsonify({"success": False, "error": "Invalid input, expecting JSON."}), 400
-
-#     try:
-#         data = request.get_json(force=True)
-#         weather = data.get("weather", "N/A")
-#         top_wear = data.get("top_wear", [])
-#         bottom_wear = data.get("bottom_wear", [])
-#         location = data.get("location", "Unknown")
-#         gender = data.get("gender", "Unknown")
-
-#         llm = LLMInvoke()
-#         context = generate_llm_context(
-#             location=location,
-#             date=datetime.now().strftime("%Y-%m-%d"),
-#             weather=weather,
-#             event="casual",
-#             top_wear_items=top_wear,
-#             bottom_wear_items=bottom_wear
-#         )
-
-#         query = (
-#             "Based on the weather and user’s wardrobe, provide a concise outfit recommendation for today. "
-#             "Use short sentences. Format as an HTML unordered list (<ul><li>...</li></ul>). "
-#             "Include: "
-#             "- Top wear (reference wardrobe item or suggest type). "
-#             "- Bottom wear (reference wardrobe item or suggest type). "
-#             "- Shoes and accessories. "
-#             "- One styling tip. "
-#             "Focus on weather suitability and casual style. If no wardrobe items fit, suggest Amazon shopping with '[shop on Amazon]' placeholder. "
-#             "Stay friendly and practical."
-#         )
-
-#         llm_result = llm.llm_response(query, context)
-#         suggestion = llm_result.get("answer", "<ul><li>No outfit suggestion available.</li></ul>")
-
-#         return jsonify({"success": True, "suggestion": suggestion})
-
-#     except Exception as e:
-#         print("Error generating outfit suggestion:", e)
-#         return jsonify({"success": False, "error": str(e)}), 500
-
-def clean_html_response(text):
-    # Remove leading/trailing code block markers if present
-    text = text.strip()
-    if text.startswith("```html"):
-        text = text[len("```html"):].strip()
-    if text.startswith("```"):
-        text = text[len("```"):].strip()
-    if text.endswith("```"):
-        text = text[:-3].strip()
-    return text
 
 @app.route("/api/instant-outfit-suggestion", methods=["POST"])
 def get_outfit_suggestion():
@@ -749,17 +587,7 @@ def get_outfit_suggestion():
             bottom_wear_items=bottom_wear,
         )
 
-        # query = (
-        #     "Based on the weather and user’s wardrobe, provide a concise outfit recommendation for today. Check all the combinations in top wear and bottom wear and provide multiple suggestions for the outfits"
-        #     "Use short sentences and give recommendations in points wise manner and bold the headings"
-        #     "Include: "
-        #     "- Top wear (reference wardrobe item or suggest type). "
-        #     "- Bottom wear (reference wardrobe item or suggest type). "
-        #     "- Shoes and accessories. "
-        #     "- One styling tip. "
-        #     "Focus on weather suitability. "
-        #     "Stay friendly and practical."
-        # )
+    
         query = (
                 "Based on the current weather and the user's wardrobe, provide multiple complete outfit suggestions for today. "
                 "Check all possible combinations of top wear and bottom wear to generate several varied outfit options. "
@@ -780,7 +608,7 @@ def get_outfit_suggestion():
             "answer", "<ul><li>No outfit suggestion available.</li></ul>"
         )
 
-        # suggestion = clean_html_response(suggestion)
+        suggestion = clean_html_response(suggestion)
         return jsonify({"success": True, "suggestion": suggestion})
 
     except Exception as e:
@@ -933,9 +761,6 @@ def ask_question():
                 location=location, date="Unknown", weather="N/A", event=event
             )
         )
-
-        # Append question-specific instructions
-        # full_context += f"\n\nUser’s question: {question}\n\nAnswer the user’s question in a friendly, conversational tone, using the wardrobe and trip details above. Focus on trip-related fashion, outfit advice, and packing tips. If the question is unrelated, politely explain that you only assist with trip fashion and packing advice."
         # Append destination-specific context
         destination_context = (
             f"The user is traveling to {location}. Provide information about this destination if the question is related to attractions, activities, or general details about the location. "

@@ -18,3 +18,6 @@ model_path = "Models/attribute_models"
 
 [LLMmodel]
 model="llama3.2:1b"
+
+[session_management_key]
+secret_key = "0236182485f3cc06f485de4d5156a91c0aa15222c8530ff3d11096681344c4de"
