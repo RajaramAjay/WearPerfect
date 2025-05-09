@@ -160,7 +160,7 @@ $ python app.py
 ## Deployment
 
 * GitHub Repository ✅
-* Future scope: Hosting on Streamlit or Hugging Face Spaces
+* Future scope: Render, Streamlit, or Hugging Face Spaces
 
 ---
 
